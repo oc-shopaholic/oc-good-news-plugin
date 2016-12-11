@@ -1,0 +1,15 @@
+name: 'lovata.goodnews::lang.article.name'
+modelClass: Lovata\GoodNews\Models\Article
+form: $/lovata/goodnews/models/article/fields.yaml
+defaultRedirect: lovata/goodnews/articles
+create:
+    title: 'lovata.goodnews::lang.article.create_title'
+    redirect: 'lovata/goodnews/articles/update/:id'
+    redirectClose: lovata/goodnews/articles
+    flashSave: 'lovata.goodnews::lang.article.create_title'
+update:
+    title: 'lovata.goodnews::lang.article.update_title'
+    redirect: lovata/goodnews/articles
+    redirectClose: lovata/goodnews/articles
+    flashSave: 'lovata.goodnews::lang.article.message_update'
+    flashDelete: 'lovata.goodnews::lang.article.message_delete'

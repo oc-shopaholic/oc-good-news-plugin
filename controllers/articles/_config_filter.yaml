@@ -1,0 +1,30 @@
+# ===================================
+# Filter Scope Definitions
+# ===================================
+
+scopes:
+    category:
+            label: 'lovata.goodnews::lang.field.category'
+            modelClass: Lovata\GoodNews\Models\Category
+            conditions: category_id in (:filtered)
+            nameFrom: name
+    published:
+        label: 'lovata.goodnews::lang.field.published'
+        type: checkbox
+        conditions: published = 1
+    published_start:
+        label: 'lovata.goodnews::lang.field.published_start'
+        type: date
+        conditions: published_start >= ':filtered'
+    published_stop:
+        label: 'lovata.goodnews::lang.field.published_stop'
+        type: date
+        conditions: published_stop >= ':filtered'
+    top:
+        label: 'lovata.goodnews::lang.field.top'
+        type: checkbox
+        conditions: top = 1
+    hot:
+        label: 'lovata.goodnews::lang.field.hot'
+        type: checkbox
+        conditions: hot = 1

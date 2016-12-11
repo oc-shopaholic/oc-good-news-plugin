@@ -1,0 +1,9 @@
+# ===================================
+# Filter Scope Definitions
+# ===================================
+
+scopes:
+    active:
+        label: 'lovata.goodnews::lang.field.active'
+        type: checkbox
+        conditions: active = 1

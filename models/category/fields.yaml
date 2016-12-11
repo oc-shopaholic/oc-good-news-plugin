@@ -1,0 +1,29 @@
+fields:
+    active:
+        label: 'lovata.goodnews::lang.field.active'
+        span: auto
+        type: switch
+    name:
+        label: 'lovata.goodnews::lang.field.name'
+        oc.commentPosition: ''
+        span: left
+        type: text
+    slug:
+        label: 'lovata.goodnews::lang.field.slug'
+        oc.commentPosition: ''
+        span: left
+        preset:
+            field: name
+            type: slug
+        type: text
+    code:
+        label: 'lovata.goodnews::lang.field.code'
+        oc.commentPosition: ''
+        span: left
+        type: text
+    description:
+        label: 'lovata.goodnews::lang.field.description'
+        span: left
+        size: huge
+        oc.commentPosition: ''
+        type: richeditor

@@ -1,0 +1,8 @@
+1.0.1:
+    - 'Initialize plugin.'
+1.0.2:
+    - 'Created table lovata_goodnews_articles'
+    - builder_table_create_lovata_good_news_articles.php
+1.0.3:
+    - 'Created table lovata_goodnews_categories'
+    - builder_table_create_lovata_good_news_categories.php

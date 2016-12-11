@@ -1,0 +1,20 @@
+plugin:
+    name: 'lovata.goodnews::lang.plugin.name'
+    description: 'lovata.goodnews::lang.plugin.description'
+    author: Lovata
+    icon: oc-icon-newspaper-o
+    homepage: ''
+navigation:
+    main-good-news:
+        label: 'lovata.goodnews::lang.menu.article'
+        url: lovata/goodnews/articles
+        icon: icon-newspaper-o
+        sideMenu:
+            side-good-news-article:
+                label: 'lovata.goodnews::lang.menu.article'
+                url: lovata/goodnews/articles
+                icon: icon-newspaper-o
+            side-good-news-category:
+                label: 'lovata.goodnews::lang.menu.category'
+                url: lovata/goodnews/categories
+                icon: icon-sitemap

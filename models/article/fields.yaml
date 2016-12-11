@@ -1,0 +1,103 @@
+fields:
+    published:
+        label: 'lovata.goodnews::lang.field.published'
+        span: auto
+        default: 1
+        type: switch
+    title:
+        label: 'lovata.goodnews::lang.field.title'
+        oc.commentPosition: ''
+        span: left
+        required: 1
+        type: text
+    slug:
+        label: 'lovata.goodnews::lang.field.slug'
+        oc.commentPosition: ''
+        span: right
+        preset:
+            field: title
+            type: slug
+        type: text
+tabs:
+    fields:
+        category:
+            label: 'lovata.goodnews::lang.field.category'
+            tab: 'lovata.goodnews::lang.tabs.settings'
+            oc.commentPosition: ''
+            nameFrom: name
+            descriptionFrom: description
+            span: left
+            type: relation
+            emptyOption: 'lovata.goodnews::lang.field.empty_value'
+        published_start:
+            label: 'lovata.goodnews::lang.field.published_start'
+            tab: 'lovata.goodnews::lang.tabs.settings'
+            oc.commentPosition: ''
+            mode: datetime
+            span: right
+            type: datepicker
+        author:
+            label: 'lovata.goodnews::lang.field.author'
+            tab: 'lovata.goodnews::lang.tabs.settings'
+            oc.commentPosition: ''
+            span: auto
+            type: text
+        published_stop:
+            label: 'lovata.goodnews::lang.field.published_stop'
+            tab: 'lovata.goodnews::lang.tabs.settings'
+            oc.commentPosition: ''
+            mode: datetime
+            span: right
+            type: datepicker
+        photo_author:
+            label: 'lovata.goodnews::lang.field.photo_author'
+            tab: 'lovata.goodnews::lang.tabs.settings'
+            oc.commentPosition: ''
+            span: left
+            type: text
+        preview_image:
+            label: 'lovata.goodnews::lang.field.preview_image'
+            tab: 'lovata.goodnews::lang.tabs.settings'
+            oc.commentPosition: ''
+            mode: image
+            useCaption: true
+            thumbOptions:
+                mode: crop
+                extension: auto
+            span: auto
+            type: fileupload
+        top:
+            label: 'lovata.goodnews::lang.field.top'
+            tab: 'lovata.goodnews::lang.tabs.settings'
+            span: left
+            type: checkbox
+        hot:
+            label: 'lovata.goodnews::lang.field.hot'
+            tab: 'lovata.goodnews::lang.tabs.settings'
+            span: left
+            type: checkbox
+        preview:
+            label: 'lovata.goodnews::lang.field.preview'
+            tab: 'lovata.goodnews::lang.tabs.settings'
+            size: small
+            oc.commentPosition: ''
+            span: left
+            type: textarea
+        content:
+            label: 'lovata.goodnews::lang.field.content'
+            tab: 'lovata.goodnews::lang.tabs.settings'
+            size: giant
+            oc.commentPosition: ''
+            span: left
+            type: richeditor
+        image:
+            label: 'lovata.goodnews::lang.field.image'
+            tab: 'lovata.goodnews::lang.tabs.settings'
+            oc.commentPosition: ''
+            mode: image
+            useCaption: true
+            thumbOptions:
+                mode: crop
+                extension: auto
+            span: auto
+            type: fileupload

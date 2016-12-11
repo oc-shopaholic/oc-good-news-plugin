@@ -1,0 +1,34 @@
+columns:
+    name:
+        label: 'lovata.goodnews::lang.field.name'
+        type: text
+        searchable: true
+        sortable: true
+    active:
+        label: 'lovata.goodnews::lang.field.active'
+        type: switch
+        sortable: true
+    slug:
+        label: 'lovata.goodnews::lang.field.slug'
+        type: text
+        searchable: true
+        sortable: true
+    code:
+        label: 'lovata.goodnews::lang.field.code'
+        type: text
+        searchable: true
+        sortable: true
+    id:
+        label: 'lovata.goodnews::lang.field.id'
+        type: number
+        sortable: true
+    created_at:
+        label: 'lovata.goodnews::lang.field.created_at'
+        type: datetime
+        invisible: true
+        sortable: true
+    updated_at:
+        label: 'lovata.goodnews::lang.field.updated_at'
+        type: datetime
+        invisible: true
+        sortable: true
