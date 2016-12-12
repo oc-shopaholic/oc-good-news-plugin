@@ -3,14 +3,14 @@ modelClass: Lovata\GoodNews\Models\Category
 form: $/lovata/goodnews/models/category/fields.yaml
 defaultRedirect: lovata/goodnews/categories
 create:
-    title: 'lovata.goodnews::lang.category.create_title'
+    title: 'backend::lang.form.create_title'
     redirect: 'lovata/goodnews/categories/update/:id'
     redirectClose: lovata/goodnews/categories
-    flashSave: 'lovata.goodnews::lang.category.message_create'
+    flashSave: 'lovata.toolbox::lang.message.create_success'
 update:
-    title: 'lovata.goodnews::lang.category.update_title'
+    title: 'backend::lang.form.update_title'
     redirect: lovata/goodnews/categories
     redirectClose: lovata/goodnews/categories
-    flashSave: 'lovata.goodnews::lang.category.message_update'
-    flashDelete: 'lovata.goodnews::lang.category.message_delete'
+    flashSave: 'lovata.toolbox::lang.message.update_success'
+    flashDelete: 'lovata.toolbox::lang.message.delete_success'
 preview: {  }

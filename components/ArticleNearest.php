@@ -8,16 +8,24 @@ use Cms\Classes\ComponentBase;
  * @package Lovata\GoodNews\Components
  * @author Andrey Kahranenka, a.khoronenko@lovata.com, LOVATA Group
  */
-class ArticleNearest extends ComponentBase {
-    
-    public function componentDetails() {
+class ArticleNearest extends ComponentBase
+{
+    /**
+     * @return array
+     */
+    public function componentDetails()
+    {
         return [
             'name'        => 'lovata.goodnews::lang.component.article_nearest',
             'description' => 'lovata.goodnews::lang.component.article_nearest_desc',
         ];
     }
 
-    public function defineProperties() {
+    /**
+     * @return array
+     */
+    public function defineProperties()
+    {
         return [
             'dateFormat' => [
                 'title'             => 'lovata.goodnews::lang.component.property_date_format',
@@ -33,8 +41,8 @@ class ArticleNearest extends ComponentBase {
      * @param int $iCount
      * @return array
      */
-    public function getPrev($iElementID, $iCount = 1) {
-        
+    public function getPrev($iElementID, $iCount = 1)
+    {
         $arResult = [];
         if(empty($iElementID)) {
             return $arResult;
@@ -82,8 +90,8 @@ class ArticleNearest extends ComponentBase {
      * @param int $iCount
      * @return array
      */
-    public function getNext($iElementID, $iCount = 1) {
-
+    public function getNext($iElementID, $iCount = 1)
+    {
         $arResult = [];
         if(empty($iElementID)) {
             return $arResult;
@@ -131,8 +139,8 @@ class ArticleNearest extends ComponentBase {
      * @param int $iCount
      * @return array
      */
-    public function getNearest($iElementID, $iCount = 1) {
-
+    public function getNearest($iElementID, $iCount = 1)
+    {
         $arResult = [];
         if(empty($iElementID)) {
             return $arResult;

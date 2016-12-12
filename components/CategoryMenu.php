@@ -12,17 +12,24 @@ use Lovata\GoodNews\Plugin;
  * @package Lovata\GoodNews\Components
  * @author Andrey Kahranenka, a.khoronenko@lovata.com, LOVATA Group
  */
-class CategoryMenu extends ComponentBase {
-    
-    public function componentDetails() {
+class CategoryMenu extends ComponentBase
+{
+    /**
+     * @return array
+     */
+    public function componentDetails()
+    {
         return [
             'name'        => 'lovata.goodnews::lang.component.category_menu',
             'description' => 'lovata.goodnews::lang.component.category_menu_desc'
         ];
     }
 
-    public function defineProperties() {
-
+    /**
+     * @return array
+     */
+    public function defineProperties()
+    {
         $arProperties = [
             'slug' => [
                 'title'             => 'lovata.goodnews::lang.component.property_slug',
@@ -38,8 +45,8 @@ class CategoryMenu extends ComponentBase {
      * Get category list
      * @return array
      */
-    public function get() {
-
+    public function get()
+    {
         //Get cache data
         $arCacheTags = [Plugin::CACHE_TAG, Category::CACHE_TAG_LIST_MENU];
         $sCacheKey = Category::CACHE_TAG_LIST_MENU;
@@ -75,8 +82,8 @@ class CategoryMenu extends ComponentBase {
      * Set active menu by slug
      * @param array $arCategoryList
      */
-    protected function setActiveMenu(&$arCategoryList) {
-        
+    protected function setActiveMenu(&$arCategoryList)
+    {
         if(empty($arCategoryList)) {
             return;
         }

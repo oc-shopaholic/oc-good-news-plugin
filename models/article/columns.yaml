@@ -1,11 +1,11 @@
 columns:
     title:
-        label: 'lovata.goodnews::lang.field.title'
+        label: 'lovata.toolbox::lang.field.title'
         type: text
         searchable: true
         sortable: true
     slug:
-        label: 'lovata.goodnews::lang.field.slug'
+        label: 'lovata.toolbox::lang.field.slug'
         type: text
         searchable: true
         sortable: true
@@ -22,7 +22,7 @@ columns:
         type: datetime
         sortable: true
     category:
-        label: 'lovata.goodnews::lang.field.category'
+        label: 'lovata.toolbox::lang.field.category'
         relation: category
         valueFrom: name
     top:
@@ -34,17 +34,17 @@ columns:
         type: switch
         sortable: true
     id:
-        label: 'lovata.goodnews::lang.field.id'
+        label: 'lovata.toolbox::lang.field.id'
         type: number
         searchable: true
         sortable: true
     created_at:
-        label: 'lovata.goodnews::lang.field.created_at'
+        label: 'lovata.toolbox::lang.field.created_at'
         type: datetime
         invisible: true
         sortable: true
     updated_at:
-        label: 'lovata.goodnews::lang.field.updated_at'
+        label: 'lovata.toolbox::lang.field.updated_at'
         type: datetime
         invisible: true
         sortable: true

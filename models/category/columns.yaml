@@ -1,15 +1,15 @@
 columns:
     name:
-        label: 'lovata.goodnews::lang.field.name'
+        label: 'lovata.toolbox::lang.field.name'
         type: text
         searchable: true
         sortable: true
     active:
-        label: 'lovata.goodnews::lang.field.active'
+        label: 'lovata.toolbox::lang.field.active'
         type: switch
         sortable: true
     slug:
-        label: 'lovata.goodnews::lang.field.slug'
+        label: 'lovata.toolbox::lang.field.slug'
         type: text
         searchable: true
         sortable: true
@@ -19,16 +19,16 @@ columns:
         searchable: true
         sortable: true
     id:
-        label: 'lovata.goodnews::lang.field.id'
+        label: 'lovata.toolbox::lang.field.id'
         type: number
         sortable: true
     created_at:
-        label: 'lovata.goodnews::lang.field.created_at'
+        label: 'lovata.toolbox::lang.field.created_at'
         type: datetime
         invisible: true
         sortable: true
     updated_at:
-        label: 'lovata.goodnews::lang.field.updated_at'
+        label: 'lovata.toolbox::lang.field.updated_at'
         type: datetime
         invisible: true
         sortable: true

@@ -1,15 +1,15 @@
 fields:
     active:
-        label: 'lovata.goodnews::lang.field.active'
+        label: 'lovata.toolbox::lang.field.active'
         span: auto
         type: switch
     name:
-        label: 'lovata.goodnews::lang.field.name'
+        label: 'lovata.toolbox::lang.field.name'
         oc.commentPosition: ''
         span: left
         type: text
     slug:
-        label: 'lovata.goodnews::lang.field.slug'
+        label: 'lovata.toolbox::lang.field.slug'
         oc.commentPosition: ''
         span: left
         preset:
@@ -22,7 +22,7 @@ fields:
         span: left
         type: text
     description:
-        label: 'lovata.goodnews::lang.field.description'
+        label: 'lovata.toolbox::lang.field.description'
         span: left
         size: huge
         oc.commentPosition: ''

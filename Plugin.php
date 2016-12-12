@@ -12,7 +12,9 @@ class Plugin extends PluginBase
     const NAME = 'goodnews';
     const CACHE_TAG = 'lovata-good-news';
     const CACHE_TIME_DEFAULT = 10080;
-    
+
+    /** @var array Plugin dependencies */
+    public $require = ['Lovata.Toolbox'];
     
     /**
      * Registration components
@@ -29,7 +31,11 @@ class Plugin extends PluginBase
         ];
     }
 
-    public function registerSettings() {
+    /**
+     * @return array
+     */
+    public function registerSettings()
+    {
         return [
             'config' => [
                 'label'       => 'lovata.goodnews::lang.plugin.name',

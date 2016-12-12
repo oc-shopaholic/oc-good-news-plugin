@@ -3,6 +3,7 @@
 use Lang;
 use Input;
 use Lovata\GoodNews\Models\Settings;
+use Lovata\Toolbox\Classes\ComponentTraitNotFoundResponse;
 use Response;
 use Cms\Classes\ComponentBase;
 use Kharanenka\Helper\CCache;
@@ -10,13 +11,16 @@ use Kharanenka\Helper\Pagination;
 use Lovata\GoodNews\Models\Article;
 use Lovata\GoodNews\Models\Category;
 use Lovata\GoodNews\Plugin;
+use Lovata\Toolbox\Plugin as ToolboxPlugin;
 
 /**
  * Class ArticleList
  * @package Lovata\GoodNews\Components
  * @author Andrey Kahranenka, a.khoronenko@lovata.com, LOVATA Group
  */
-class ArticleList extends ComponentBase {
+class ArticleList extends ComponentBase
+{
+    use ComponentTraitNotFoundResponse;
 
     const SORT_PUBLISH_ASC = 'publish|asc';
     const SORT_PUBLISH_DESC = 'publish|desc';
@@ -26,39 +30,31 @@ class ArticleList extends ComponentBase {
     
     /** @var Category */
     protected $obCategory;
-    
-    public function componentDetails() {
+
+    /**
+     * @return array
+     */
+    public function componentDetails()
+    {
         return [
             'name'        => 'lovata.goodnews::lang.component.article_list',
             'description' => 'lovata.goodnews::lang.component.article_list_desc'
         ];
     }
 
-    public function defineProperties() {
-
+    /**
+     * @return array
+     */
+    public function defineProperties()
+    {
         $arProperties = [
-            'error_404' => [
-                'title' => Lang::get('lovata.goodnews::lang.component.property_name_error_404'),
-                'description' => Lang::get('lovata.goodnews::lang.component.property_description_error_404'),
-                'default' => 'on',
-                'type' => 'dropdown',
-                'options' => [
-                    'on' => Lang::get('lovata.goodnews::lang.component.property_value_on'),
-                    'off' => Lang::get('lovata.goodnews::lang.component.property_value_off'),
-                ],
-            ],
             'dateFormat' => [
                 'title'             => 'lovata.goodnews::lang.component.property_date_format',
                 'type'              => 'string',
                 'default'           => Article::DEFAULT_DATE_FORMAT,
             ],
-            'slug' => [
-                'title'             => 'lovata.goodnews::lang.component.property_slug',
-                'type'              => 'string',
-                'default'           => '{{:slug}}',
-            ],
             'sorting' => [
-                'title' => Lang::get('lovata.goodnews::lang.component.property_sorting'),
+                'title' => 'lovata.goodnews::lang.component.property_sorting',
                 'type' => 'dropdown',
                 'default' => self::SORT_PUBLISH_DESC,
                 'options' => [
@@ -68,7 +64,8 @@ class ArticleList extends ComponentBase {
             ],
         ];
 
-        $arProperties = array_merge($arProperties, Pagination::getProperties('goodnews'));
+        $arProperties = array_merge($arProperties, $this->getElementPageProperties());
+        $arProperties = array_merge($arProperties, Pagination::getProperties(ToolboxPlugin::NAME));
         return $arProperties;
     }
 
@@ -89,12 +86,7 @@ class ArticleList extends ComponentBase {
         //Get category object
         $obCategory = Category::active()->getBySlug($sCategorySlug)->first();
         if(empty($obCategory)) {
-
-            if(!$bDisplayError404) {
-                return;
-            }
-
-            return Response::make($this->controller->run('404')->getContent(), 404);
+            return $this->getErrorResponse($bDisplayError404);
         }
 
         $this->obCategory = $obCategory;
@@ -106,8 +98,8 @@ class ArticleList extends ComponentBase {
      * @param int $iPage
      * @return array
      */
-    public function get($iPage = 1) {
-
+    public function get($iPage = 1)
+    {
         $arResult = [
             'list' => [],
             'pagination' => [],
@@ -196,8 +188,8 @@ class ArticleList extends ComponentBase {
      * Get ajax element list
      * @return string
      */
-    public function onAjaxRequest() {
-
+    public function onAjaxRequest()
+    {
         $iElementOnPage = $this->property('count_per_page');
         if($iElementOnPage > 0) {
             $this->iElementOnPage = $iElementOnPage;
@@ -211,8 +203,8 @@ class ArticleList extends ComponentBase {
      * @param int $iPage
      * @return array|mixed
      */
-    public function getPagination($iPage = 1) {
-
+    public function getPagination($iPage = 1)
+    {
         $arResult = $this->get($iPage);
         if(isset($arResult['pagination'])) {
             return $arResult['pagination'];
@@ -226,8 +218,8 @@ class ArticleList extends ComponentBase {
      * @param int $iPage
      * @return array|mixed
      */
-    public function getCount($iPage = 1) {
-
+    public function getCount($iPage = 1)
+    {
         $arResult = $this->get($iPage);
         if(isset($arResult['count'])) {
             return $arResult['count'];
@@ -240,8 +232,8 @@ class ArticleList extends ComponentBase {
      * Get sorting
      * @return mixed|string
      */
-    public function getActiveSorting() {
-
+    public function getActiveSorting()
+    {
         $sSorting = Input::get('sort');
         if(empty($sSorting)) {
             $sSorting = $this->property('sorting');
@@ -260,8 +252,8 @@ class ArticleList extends ComponentBase {
      * @param string $sSorting
      * @return Article
      */
-    protected function applySorting($obQuery, $sSorting) {
-        
+    protected function applySorting($obQuery, $sSorting)
+    {
         switch($sSorting) {
             case self::SORT_PUBLISH_ASC:
                 return $obQuery->orderBy('published_start', 'asc');

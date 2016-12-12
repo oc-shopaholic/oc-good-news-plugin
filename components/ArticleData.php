@@ -9,18 +9,26 @@ use Cms\Classes\ComponentBase;
  * @package Lovata\GoodNews\Components
  * @author Andrey Kahranenka, a.khoronenko@lovata.com, LOVATA Group
  */
-class ArticleData extends ComponentBase {
-
+class ArticleData extends ComponentBase
+{
     protected $iElementID;
 
-    public function componentDetails() {
+    /**
+     * @return array
+     */
+    public function componentDetails()
+    {
         return [
             'name'        => 'lovata.goodnews::lang.component.article_data',
             'description' => 'lovata.goodnews::lang.component.article_data_desc'
         ];
     }
 
-    public function defineProperties() {
+    /**
+     * @return array
+     */
+    public function defineProperties()
+    {
         return [
             'dateFormat' => [
                 'title'             => 'lovata.goodnews::lang.component.property_date_format',
@@ -33,7 +41,8 @@ class ArticleData extends ComponentBase {
     /**
      * Get article data (ajax)
      */
-    public function onAjaxRequest() {
+    public function onAjaxRequest()
+    {
         $this->iElementID = Request::get('article_id');
     }
     
@@ -42,8 +51,8 @@ class ArticleData extends ComponentBase {
      * @param int $iElementID
      * @return array|null
      */
-    public function get($iElementID = null) {
-
+    public function get($iElementID = null)
+    {
         if(empty($iElementID) && !empty($this->iElementID)) {
             $iElementID = $this->iElementID;
         } elseif(empty($iElementID)) {
