@@ -14,7 +14,7 @@ columns:
         searchable: true
         sortable: true
     code:
-        label: 'lovata.goodnews::lang.field.code'
+        label: 'lovata.toolbox::lang.field.code'
         type: text
         searchable: true
         sortable: true
@@ -24,11 +24,11 @@ columns:
         sortable: true
     created_at:
         label: 'lovata.toolbox::lang.field.created_at'
-        type: datetime
+        type: timetense
         invisible: true
         sortable: true
     updated_at:
         label: 'lovata.toolbox::lang.field.updated_at'
-        type: datetime
+        type: timetense
         invisible: true
         sortable: true

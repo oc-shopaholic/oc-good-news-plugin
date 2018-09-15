@@ -9,10 +9,9 @@ columns:
         type: text
         searchable: true
         sortable: true
-    published:
-        label: 'lovata.goodnews::lang.field.published'
-        type: switch
-        sortable: true
+    status_id:
+        label: 'lovata.goodnews::lang.field.status'
+        type: partial
     published_start:
         label: 'lovata.goodnews::lang.field.published_start'
         type: datetime
@@ -25,26 +24,20 @@ columns:
         label: 'lovata.toolbox::lang.field.category'
         relation: category
         valueFrom: name
-    top:
-        label: 'lovata.goodnews::lang.field.top'
-        type: switch
-        sortable: true
-    hot:
-        label: 'lovata.goodnews::lang.field.hot'
-        type: switch
-        sortable: true
+        sortable: false
     id:
         label: 'lovata.toolbox::lang.field.id'
-        type: number
+        type: text
         searchable: true
         sortable: true
+        width: 100px
     created_at:
         label: 'lovata.toolbox::lang.field.created_at'
-        type: datetime
-        invisible: true
+        type: timetense
         sortable: true
+        invisible: true
     updated_at:
         label: 'lovata.toolbox::lang.field.updated_at'
-        type: datetime
-        invisible: true
+        type: timetense
         sortable: true
+        invisible: true

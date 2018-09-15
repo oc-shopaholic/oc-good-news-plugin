@@ -3,7 +3,7 @@ modelClass: Lovata\GoodNews\Models\Category
 list: $/lovata/goodnews/models/category/columns.yaml
 recordUrl: 'lovata/goodnews/categories/update/:id'
 noRecordsMessage: 'backend::lang.list.no_records'
-recordsPerPage: '25'
+recordsPerPage: '10'
 showSetup: true
 showCheckboxes: true
 showSorting: 1

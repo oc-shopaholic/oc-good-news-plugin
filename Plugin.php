@@ -1,6 +1,34 @@
 <?php namespace Lovata\GoodNews;
 
+use Event;
 use System\Classes\PluginBase;
+
+//Item
+use Lovata\GoodNews\Classes\Item\ArticleItem;
+use Lovata\GoodNews\Classes\Item\CategoryItem;
+
+//Collection
+use Lovata\GoodNews\Classes\Collection\ArticleCollection;
+use Lovata\GoodNews\Classes\Collection\CategoryCollection;
+
+//Store
+use Lovata\GoodNews\Classes\Store\ArticleListStore;
+use Lovata\GoodNews\Classes\Store\CategoryListStore;
+
+//Event
+use Lovata\GoodNews\Classes\Event\ArticleModelHandler;
+use Lovata\GoodNews\Classes\Event\CategoryModelHandler;
+
+//Components
+use Lovata\GoodNews\Components\ArticleData;
+use Lovata\GoodNews\Components\ArticlePage;
+use Lovata\GoodNews\Components\ArticleList;
+use Lovata\GoodNews\Components\CategoryData;
+use Lovata\GoodNews\Components\CategoryList;
+use Lovata\GoodNews\Components\CategoryPage;
+
+//Console
+use Lovata\GoodNews\Console\UpdatePublishedArticleList;
 
 /**
  * Class Plugin
@@ -9,9 +37,7 @@ use System\Classes\PluginBase;
  */
 class Plugin extends PluginBase
 {
-    const NAME = 'goodnews';
     const CACHE_TAG = 'lovata-good-news';
-    const CACHE_TIME_DEFAULT = 10080;
 
     /** @var array Plugin dependencies */
     public $require = ['Lovata.Toolbox'];
@@ -23,28 +49,46 @@ class Plugin extends PluginBase
     public function registerComponents()
     {
         return [
-            '\Lovata\GoodNews\Components\ArticleList' => 'ArticleList',
-            '\Lovata\GoodNews\Components\ArticlePage' => 'ArticlePage',
-            '\Lovata\GoodNews\Components\ArticleData' => 'ArticleData',
-            '\Lovata\GoodNews\Components\ArticleNearest' => 'ArticleNearest',
-            '\Lovata\GoodNews\Components\CategoryMenu' => 'CategoryMenu',
+            ArticleList::class    => 'ArticleList',
+            ArticlePage::class    => 'ArticlePage',
+            ArticleData::class    => 'ArticleData',
+            CategoryList::class   => 'CategoryList',
+            CategoryPage::class   => 'CategoryPage',
+            CategoryData::class   => 'CategoryData',
         ];
     }
 
     /**
-     * @return array
+     * Register artisan command
      */
-    public function registerSettings()
+    public function register()
     {
-        return [
-            'config' => [
-                'label'       => 'lovata.goodnews::lang.plugin.name',
-                'icon'        => 'icon-cogs',
-                'description' => 'lovata.goodnews::lang.plugin.description',
-                'class'       => 'Lovata\GoodNews\Models\Settings',
-                'permissions' => ['lovata-good-news-settings'],
-                'order'       => 100
-            ]
-        ];
+        $this->registerConsoleCommand('UpdatePublishedArticleList', UpdatePublishedArticleList::class);
+    }
+
+    /**
+     * Plugin boot method
+     */
+    public function boot()
+    {
+        $this->app->singleton(CategoryListStore::class, CategoryListStore::class);
+        $this->app->singleton(ArticleListStore::class, ArticleListStore::class);
+        
+        $this->app->bind(ArticleItem::class, ArticleItem::class);
+        $this->app->bind(CategoryItem::class, CategoryItem::class);
+        
+        $this->app->bind(ArticleCollection::class, ArticleCollection::class);
+        $this->app->bind(CategoryCollection::class, CategoryCollection::class);
+        
+        $this->addEventListener();
+    }
+
+    /**
+     * Add event listeners
+     */
+    protected function addEventListener()
+    {
+        Event::subscribe(ArticleModelHandler::class);
+        Event::subscribe(CategoryModelHandler::class);
     }
 }
