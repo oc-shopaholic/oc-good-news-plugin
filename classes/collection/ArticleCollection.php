@@ -2,8 +2,8 @@
 
 use Lovata\Toolbox\Classes\Collection\ElementCollection;
 
-use Lovata\GoodNews\Models\Article;
 use Lovata\GoodNews\Classes\Item\ArticleItem;
+use Lovata\GoodNews\Classes\Item\CategoryItem;
 use Lovata\GoodNews\Classes\Store\ArticleListStore;
 
 /**
@@ -13,88 +13,73 @@ use Lovata\GoodNews\Classes\Store\ArticleListStore;
  */
 class ArticleCollection extends ElementCollection
 {
-    /** @var ArticleListStore */
-    protected $obArticleListStore;
+    const ITEM_CLASS = ArticleItem::class;
 
     /**
-     * StickerCollection constructor.
-     * @param ArticleListStore $obArticleListStore
+     * Apply filter by active article list
+     * @return $this
      */
-    public function __construct(ArticleListStore $obArticleListStore)
+    public function published()
     {
-        $this->obArticleListStore = $obArticleListStore;
-        parent::__construct();
-    }
+        $arResultIDList = ArticleListStore::instance()->published->get();
 
-
-    /**
-     * Make element item
-     * @param int $iElementID
-     * @param Article $obElement
-     *
-     * @return ArticleItem
-     */
-    protected function makeItem($iElementID, $obElement = null)
-    {
-        return ArticleItem::make($iElementID, $obElement);
+        return $this->intersect($arResultIDList);
     }
 
     /**
-     * Sort list
+     * Sort list by
      * @param string $sSorting
      * @return $this
      */
     public function sort($sSorting)
     {
-        if(!$this->isClear() && $this->isEmpty()) {
-            return $this;
-        }
+        $arResultIDList = ArticleListStore::instance()->sorting->get($sSorting);
 
-        //Get sorting list
-        $arElementIDList = $this->obArticleListStore->getBySorting($sSorting);
-        if(empty($arElementIDList)) {
-            return $this->clear();
-        }
-
-        if($this->isClear()) {
-            $this->arElementIDList = $arElementIDList;
-            return $this;
-        }
-
-        $this->arElementIDList = array_intersect($arElementIDList, $this->arElementIDList);
-        return $this->returnThis();
+        return $this->applySorting($arResultIDList);
     }
 
     /**
-     * Apply filter by active element list
+     * Filter article list by category ID
+     * @param int|array $arCategoryIDList
+     * @param bool $bWithChildren
      * @return $this
      */
-    public function published()
+    public function category($arCategoryIDList, $bWithChildren = false)
     {
-        $arElementIDList = $this->obArticleListStore->getPublishedList();
-        return $this->intersect($arElementIDList);
+        if (!is_array($arCategoryIDList)) {
+            $arCategoryIDList = [$arCategoryIDList];
+        }
+
+        $arResultIDList = [];
+        foreach ($arCategoryIDList as $iCategoryID) {
+            $arResultIDList = array_merge($arResultIDList, (array) ArticleListStore::instance()->category->get($iCategoryID));
+            if ($bWithChildren) {
+                $arResultIDList = array_merge($arResultIDList, (array) $this->getIDListChildrenCategory($iCategoryID));
+            }
+        }
+
+        return $this->intersect($arResultIDList);
     }
 
     /**
-     * Apply filter by category element list
+     * Get article ID list for children categories
      * @param int $iCategoryID
-     * @return $this
+     * @return array
      */
-    public function category($iCategoryID)
+    protected function getIDListChildrenCategory($iCategoryID) : array
     {
-        $arElementIDList = $this->obArticleListStore->getByCategory($iCategoryID);
-        return $this->intersect($arElementIDList);
-    }
+        //Get category item
+        $obCategoryItem = CategoryItem::make($iCategoryID);
+        if ($obCategoryItem->isEmpty() || $obCategoryItem->children->isEmpty()) {
+            return [];
+        }
 
-    /**
-     * Apply filter by status element list
-     * @param int $iStatusID
-     * @return $this
-     */
-    public function status($iStatusID)
-    {
-        $arElementIDList = $this->obArticleListStore->getByStatus($iStatusID);
-        return $this->intersect($arElementIDList);
+        $arResultIDList = [];
+        foreach ($obCategoryItem->children as $obChildCategoryItem) {
+            $arResultIDList = array_merge($arResultIDList, (array) ArticleListStore::instance()->category->get($obChildCategoryItem->id));
+            $arResultIDList = array_merge($arResultIDList, $this->getIDListChildrenCategory($obChildCategoryItem->id));
+        }
+
+        return $arResultIDList;
     }
 }
-

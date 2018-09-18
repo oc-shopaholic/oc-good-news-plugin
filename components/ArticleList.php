@@ -1,6 +1,5 @@
 <?php namespace Lovata\GoodNews\Components;
 
-use App;
 use Lang;
 use Lovata\GoodNews\Classes\Collection\ArticleCollection;
 use Lovata\GoodNews\Classes\Store\ArticleListStore;
@@ -47,15 +46,6 @@ class ArticleList extends SortingElementList
         ];
 
         return $arProperties;
-    }
-
-    /**
-     * Init start component data
-     */
-    public function init()
-    {
-        $this->obArticleListStore = App::make(ArticleListStore::class);
-        parent::init();
     }
 
     /**
