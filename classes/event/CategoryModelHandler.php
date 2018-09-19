@@ -12,44 +12,31 @@ use Lovata\Toolbox\Classes\Event\ModelHandler;
  */
 class CategoryModelHandler extends ModelHandler
 {
-    /** @var  CategoryListStore */
-    protected $obListStore;
+    /** @var  Category */
+    protected $obElement;
 
     /**
-     * CategoryModelHandler constructor.
-     *
-     * @param CategoryListStore $obCategoryListStore
+     * Add listeners
+     * @param \Illuminate\Events\Dispatcher $obEvent
      */
-    public function __construct(CategoryListStore $obCategoryListStore)
-    {
-        $this->obListStore = $obCategoryListStore;
-    }
-
     public function subscribe($obEvent)
     {
         parent::subscribe($obEvent);
 
-        Category::updated(function($obElement) {
-            $this->clearCache($obElement);
+        $obEvent->listen('good_news.category.update.sorting', function () {
+            CategoryListStore::instance()->top_level->clear();
+
+            //Get category ID list
+            $arCategoryIDList = Category::lists('id');
+            if (empty($arCategoryIDList)) {
+                return;
+            }
+
+            //Clear cache for all categories
+            foreach ($arCategoryIDList as $iCategoryID) {
+                CategoryItem::clearCache($iCategoryID);
+            }
         });
-
-        Category::deleted(function($obElement) {
-            $this->clearCache($obElement);
-        });
-    }
-
-    /**
-     * Clear cache data
-     * @param Category $obElement
-     */
-    protected function clearCache($obElement)
-    {
-        CategoryItem::clearCache($obElement->id);
-        CategoryItem::clearCache($obElement->parent_id);
-
-        if($obElement->parent_id != $obElement->getOriginal('parent_id')) {
-            CategoryItem::clearCache($obElement->getOriginal('parent_id'));
-        }
     }
 
     /**
@@ -68,5 +55,36 @@ class CategoryModelHandler extends ModelHandler
     protected function getItemClass()
     {
         return CategoryItem::class;
+    }
+
+    /**
+     * After save event handler
+     */
+    protected function afterSave()
+    {
+        parent::afterSave();
+
+        CategoryListStore::instance()->top_level->clear();
+
+        $this->checkFieldChanges('active', CategoryListStore::instance()->active);
+    }
+
+    /**
+     * After delete event handler
+     */
+    protected function afterDelete()
+    {
+        parent::afterDelete();
+
+        CategoryListStore::instance()->top_level->clear();
+
+        //Clear parent item cache
+        if (!empty($this->obElement->parent_id)) {
+            CategoryItem::clearCache($this->obElement->parent_id);
+        }
+
+        if ($this->obElement->active) {
+            CategoryListStore::instance()->active->clear();
+        }
     }
 }

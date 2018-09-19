@@ -82,4 +82,18 @@ class Category extends Model
         'preview_text',
         'description',
     ];
+
+    public $cached = [
+        'id',
+        'name',
+        'slug',
+        'active',
+        'code',
+        'preview_text',
+        'description',
+        'nest_depth',
+        'parent_id',
+        'preview_image',
+        'images',
+    ];
 }

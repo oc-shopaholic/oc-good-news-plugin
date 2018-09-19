@@ -2,7 +2,6 @@
 
 use Lovata\Toolbox\Classes\Collection\ElementCollection;
 
-use Lovata\GoodNews\Models\Category;
 use Lovata\GoodNews\Classes\Item\CategoryItem;
 use Lovata\GoodNews\Classes\Store\CategoryListStore;
 
@@ -13,55 +12,27 @@ use Lovata\GoodNews\Classes\Store\CategoryListStore;
  */
 class CategoryCollection extends ElementCollection
 {
-    /** @var CategoryListStore */
-    protected $obCategoryListStore;
+    const ITEM_CLASS = CategoryItem::class;
 
     /**
-     * StickerCollection constructor.
-     * @param CategoryListStore $obCategoryListStore
+     * Set to element ID list top level category ID list
+     * @return CategoryCollection
      */
-    public function __construct(CategoryListStore $obCategoryListStore)
+    public function tree()
     {
-        $this->obCategoryListStore = $obCategoryListStore;
-        parent::__construct();
-    }
+        $arResultIDList = CategoryListStore::instance()->top_level->get();
 
-
-    /**
-     * Make element item
-     * @param int $iElementID
-     * @param Category $obElement
-     *
-     * @return CategoryItem
-     */
-    protected function makeItem($iElementID, $obElement = null)
-    {
-        return CategoryItem::make($iElementID, $obElement);
+        return $this->applySorting($arResultIDList);
     }
 
     /**
-     * Sort list
+     * Apply filter by active field
      * @return $this
      */
-    public function getTree()
+    public function active()
     {
-        if(!$this->isClear() && $this->isEmpty()) {
-            return $this;
-        }
+        $arResultIDList = CategoryListStore::instance()->active->get();
 
-        //Get sorting list
-        $arElementIDList = $this->obCategoryListStore->getTree();
-        if(empty($arElementIDList)) {
-            return $this->clear();
-        }
-
-        if($this->isClear()) {
-            $this->arElementIDList = $arElementIDList;
-            return $this;
-        }
-
-        $this->arElementIDList = array_intersect($arElementIDList, $this->arElementIDList);
-        return $this->returnThis();
+        return $this->intersect($arResultIDList);
     }
 }
-

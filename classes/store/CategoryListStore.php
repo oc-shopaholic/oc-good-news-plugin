@@ -1,56 +1,28 @@
 <?php namespace Lovata\GoodNews\Classes\Store;
 
-use Kharanenka\Helper\CCache;
-use Lovata\GoodNews\Models\Category;
-use Lovata\GoodNews\Plugin;
+use Lovata\Toolbox\Classes\Store\AbstractListStore;
+
+use Lovata\GoodNews\Classes\Store\Category\TopLevelListStore;
+use Lovata\GoodNews\Classes\Store\Category\ActiveListStore;
 
 /**
  * Class CategoryListStore
- *
  * @package Lovata\GoodNews\Classes\Store
- * @author Andrey Kahranenka, a.khoronenko@lovata.com, LOVATA Group
+ * @author  Andrey Kharanenka, a.khoronenko@lovata.com, LOVATA Group
+ *
+ * @property TopLevelListStore $top_level
+ * @property ActiveListStore     $active
  */
-class CategoryListStore
+class CategoryListStore extends AbstractListStore
 {
-    const CACHE_TAG_LIST = 'good-news-category-list';
-    const CACHE_KEY_TOP_LEVEL_LIST = 'good-news-category-top-level-list';
-    
-    /**
-     * Get category list tree
-     * @return array
-     */
-    public function getTree()
-    {
-        //Get cache data
-        $arCacheTags = [Plugin::CACHE_TAG, self::CACHE_TAG_LIST];
-        $sCacheKey = self::CACHE_KEY_TOP_LEVEL_LIST;
-
-        //Get category ID list
-        $arResult = [];
-        $arCategoryListID = CCache::get($arCacheTags, $sCacheKey);
-        if(empty($arCategoryListID)) {
-            $arCategoryListID = Category::active()
-                ->where('nest_depth', 0)
-                ->orderBy('nest_left', 'asc')
-                ->lists('id');
-            CCache::forever($arCacheTags, $sCacheKey, $arCategoryListID);
-        }
-
-        if(empty($arCategoryListID)) {
-            return $arResult;
-        }
-
-        return $arCategoryListID;
-    }
+    protected static $instance;
 
     /**
-     * Clear top level category ID list
+     * Init store method
      */
-    public function clearTopLevelList()
+    protected function init()
     {
-        $arCacheTags = [Plugin::CACHE_TAG, CategoryListStore::CACHE_TAG_LIST];
-        $sCacheKey = CategoryListStore::CACHE_KEY_TOP_LEVEL_LIST;
-
-        CCache::clear($arCacheTags, $sCacheKey);
+        $this->addToStoreList('top_level', TopLevelListStore::class);
+        $this->addToStoreList('active', ActiveListStore::class);
     }
 }

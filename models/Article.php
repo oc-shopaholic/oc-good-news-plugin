@@ -4,12 +4,13 @@ use Lang;
 use Model;
 use October\Rain\Argon\Argon;
 use October\Rain\Database\Traits\Validation;
-use Lovata\Toolbox\Traits\Helpers\TraitCached;
 
+use Lovata\Toolbox\Traits\Helpers\TraitCached;
 use Kharanenka\Helper\DataFileModel;
 use Kharanenka\Scope\CategoryBelongsTo;
 use Kharanenka\Scope\DateField;
 use Kharanenka\Scope\SlugField;
+use Lovata\GoodNews\Traits\Model\ArticleScope;
 
 /**
  * Class Article
@@ -39,9 +40,6 @@ use Kharanenka\Scope\SlugField;
  * @property Category $category
  * @method static \October\Rain\Database\Relations\BelongsTo|Category category()
  *
- * @method static $this getPublished()
- * @method static $this getByStatus(int $iStatusID)
- * @method static $this getByStatusIn(array $arStatusID)
  */
 class Article extends Model
 {
@@ -51,6 +49,7 @@ class Article extends Model
     use SlugField;
     use CategoryBelongsTo;
     use TraitCached;
+    use ArticleScope;
 
     const STATUS_NEW = 1;
     const STATUS_IN_WORK = 2;
@@ -97,57 +96,23 @@ class Article extends Model
         'view_count',
     ];
 
+    public $cached = [
+        'status_id',
+        'category_id',
+        'title',
+        'slug',
+        'preview_text',
+        'content',
+        'published_start',
+        'published_stop',
+        'view_count',
+    ];
+
     public function beforeSave()
     {
         if($this->status_id == self::STATUS_PUBLISHED && empty($this->published_start)) {
             $this->published_start = Argon::now();
         }
-    }
-
-    /**
-     * Get element by status_id value
-     * @param Article $obQuery
-     * @param string $sData
-     * @return Article
-     */
-    public function scopeGetByStatus($obQuery, $sData)
-    {
-        if(!empty($sData)) {
-            $obQuery->where('status_id', $sData);
-        }
-
-        return $obQuery;
-    }
-
-    /**
-     * Get element by status_id value
-     * @param Article $obQuery
-     * @param array $arData
-     * @return Article
-     */
-    public function scopeGetByStatusIn($obQuery, $arData)
-    {
-        if(!empty($arData)) {
-            $obQuery->whereIn('status_id', $arData);
-        }
-
-        return $obQuery;
-    }
-
-    /**
-     * Get published elements
-     * @param Article $obQuery
-     * @return Article
-     */
-    public function scopeGetPublished($obQuery)
-    {
-        $sDateNow = Argon::now()->format('Y-m-d H:i:s');
-
-        return $obQuery->where('published_start', '<=', $sDateNow)
-            ->where(function($obQuery) use ($sDateNow) {
-                /** @var Article $obQuery */
-                $obQuery->whereNull('published_stop')->orWhere('published_stop', '>', $sDateNow);
-            });
     }
 
     /**

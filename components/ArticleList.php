@@ -1,7 +1,7 @@
 <?php namespace Lovata\GoodNews\Components;
 
-use App;
 use Lang;
+use Event;
 use Lovata\GoodNews\Classes\Collection\ArticleCollection;
 use Lovata\GoodNews\Classes\Store\ArticleListStore;
 use Lovata\Toolbox\Classes\Component\SortingElementList;
@@ -50,15 +50,6 @@ class ArticleList extends SortingElementList
     }
 
     /**
-     * Init start component data
-     */
-    public function init()
-    {
-        $this->obArticleListStore = App::make(ArticleListStore::class);
-        parent::init();
-    }
-
-    /**
      * Make element collection
      * @param array $arElementIDList
      *
@@ -66,6 +57,8 @@ class ArticleList extends SortingElementList
      */
     public function make($arElementIDList = null)
     {
+        Event::fire('good_news.category.update.sorting');
+
         return ArticleCollection::make($arElementIDList);
     }
 
