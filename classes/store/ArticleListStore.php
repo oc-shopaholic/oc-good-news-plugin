@@ -1,6 +1,5 @@
 <?php namespace Lovata\GoodNews\Classes\Store;
 
-use Event;
 use Lovata\Toolbox\Classes\Store\AbstractListStore;
 
 use Lovata\GoodNews\Classes\Store\Article\PublishedListStore;
@@ -30,8 +29,6 @@ class ArticleListStore extends AbstractListStore
      */
     protected function init()
     {
-        Event::fire('good_news.category.update.sorting');
-
         $this->addToStoreList('category', ListByCategoryStore::class);
         $this->addToStoreList('sorting', SortingListStore::class);
         $this->addToStoreList('published', PublishedListStore::class);
