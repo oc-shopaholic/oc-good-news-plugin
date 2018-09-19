@@ -106,6 +106,8 @@ class Article extends Model
         'published_start',
         'published_stop',
         'view_count',
+        'preview_image',
+        'images',
     ];
 
     public function beforeSave()

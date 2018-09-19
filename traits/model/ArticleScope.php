@@ -68,8 +68,9 @@ trait ArticleScope {
      */
     public function scopeGetByPublishedStart($obQuery)
     {
+        $sData = Argon::now()->format('Y-m-d H:i:s');
         if(!empty($sData)) {
-            $obQuery->where('published_stop', '>', Argon::now()->format('Y-m-d H:i:s'));
+            $obQuery->where('published_stop', '>', $sData);
         }
 
         return $obQuery;
@@ -82,8 +83,9 @@ trait ArticleScope {
      */
     public function scopeGetByPublishedStop($obQuery)
     {
+        $sData = Argon::now()->format('Y-m-d H:i:s');
         if(!empty($sData)) {
-            $obQuery->where('published_stop', '>', Argon::now()->format('Y-m-d H:i:s'));
+            $obQuery->where('published_stop', '>', $sData);
         }
 
         return $obQuery;
