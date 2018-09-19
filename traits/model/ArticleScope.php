@@ -70,7 +70,7 @@ trait ArticleScope {
     {
         $sData = Argon::now()->format('Y-m-d H:i:s');
         if(!empty($sData)) {
-            $obQuery->where('published_stop', '>', $sData);
+            $obQuery->where('published_start', '>', $sData);
         }
 
         return $obQuery;
