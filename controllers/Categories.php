@@ -1,5 +1,6 @@
 <?php namespace Lovata\GoodNews\Controllers;
 
+use Event;
 use Backend\Classes\Controller;
 use BackendMenu;
 
@@ -16,9 +17,23 @@ class Categories extends Controller
     public $formConfig = 'config_form.yaml';
     public $reorderConfig = 'config_reorder.yaml';
 
+    /**
+     * Categories constructor.
+     */
     public function __construct()
     {
         parent::__construct();
         BackendMenu::setContext('Lovata.GoodNews', 'main-good-news', 'side-good-news-category');
+    }
+    
+    /**
+     * Ajax handler onReorder event
+     */
+    public function onReorder()
+    {
+        $obResult = parent::onReorder();
+        Event::fire('good_news.category.update.sorting');
+        
+        return $obResult;
     }
 }

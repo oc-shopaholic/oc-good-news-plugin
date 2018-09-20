@@ -1,231 +1,176 @@
 <?php namespace Lovata\GoodNews\Models;
 
-use Carbon\Carbon;
-use Kharanenka\Helper\CustomValidationMessage;
+use Lang;
+use Model;
+use October\Rain\Argon\Argon;
+use October\Rain\Database\Traits\Validation;
+
 use Kharanenka\Helper\DataFileModel;
 use Kharanenka\Scope\CategoryBelongsTo;
 use Kharanenka\Scope\DateField;
-use Kharanenka\Scope\PublishField;
-use Kharanenka\Helper\CCache;
 use Kharanenka\Scope\SlugField;
-use Lovata\GoodNews\Plugin;
-use October\Rain\Database\Builder;
-use October\Rain\Database\Collection;
-use System\Classes\PluginManager;
-use Model;
+
+use Lovata\Toolbox\Traits\Helpers\TraitCached;
 
 /**
  * Class Article
  *
  * @package Lovata\GoodNews\Models
- * @author Andrey Kahranenka, a.khoronenko@lovata.com, LOVATA Group
- * 
- * @mixin Builder
+ * @author  Andrey Kahranenka, a.khoronenko@lovata.com, LOVATA Group
+ *
+ * @mixin \October\Rain\Database\Builder
  * @mixin \Eloquent
- * 
- * @property int $id
- * @property string $title
- * @property string $slug
- * @property integer $category_id
- * @property string $preview
- * @property string $content
- * @property boolean $published
- * @property Carbon $published_start
- * @property Carbon $published_stop
- * @property boolean $top
- * @property boolean $hot
- * @property string $author
- * @property string $photo_author
- * @property Carbon $created_at
- * @property Carbon $updated_at
- * 
- * @property Category $category
- * 
- * "Good news for Shopaholic" fields
- * @property Collection|\Lovata\Shopaholic\Models\Product[] $product
- * @property Collection|\Lovata\Shopaholic\Models\Category[] $category_product
- * 
- * @method static Builder|$this whereTitle($value)
- * @method static Builder|$this top()
- * @method static Builder|$this hot()
+ *
+ * @property int                                                     $id
+ * @property int                                                     $status_id
+ * @property string                                                  $title
+ * @property string                                                  $slug
+ * @property integer                                                 $category_id
+ * @property integer                                                 $view_count
+ * @property string                                                  $preview_text
+ * @property string                                                  $content
+ * @property \October\Rain\Argon\Argon                               $published_start
+ * @property \October\Rain\Argon\Argon                               $published_stop
+ * @property \October\Rain\Argon\Argon                               $created_at
+ * @property \October\Rain\Argon\Argon                               $updated_at
+ *
+ * @property \System\Models\File                                     $preview_image
+ * @property \October\Rain\Database\Collection|\System\Models\File[] $images
+ *
+ * @property Category                                                $category
+ * @method static \October\Rain\Database\Relations\BelongsTo|Category category()
+ *
+ * @method static $this getByStatus($sData)
+ * @method static $this getByStatusIn($arData)
+ * @method static $this getPublished()
+ *
  */
 class Article extends Model
 {
-    use \October\Rain\Database\Traits\Validation;
-    use CustomValidationMessage;
-    use PublishField;
-    use CategoryBelongsTo;
+    use Validation;
     use DateField;
     use DataFileModel;
     use SlugField;
+    use CategoryBelongsTo;
+    use TraitCached;
 
-    const CACHE_TAG_LIST = 'article-list';
-    const CACHE_TAG_ELEMENT = 'article-element';
-    
-    const DEFAULT_DATE_FORMAT = 'd.m.Y';
-    
-    /**
-     * @var string The database table used by the model.
-     */
-    public $table = 'lovata_goodnews_articles';
-    
+    const STATUS_NEW = 1;
+    const STATUS_IN_WORK = 2;
+    const STATUS_REVIEW = 3;
+    const STATUS_PUBLISHED = 4;
+
+    public $table = 'lovata_good_news_articles';
+
     public $rules = [
-        'title' => 'required',
-        'slug' => 'required|unique:lovata_goodnews_articles',
+        'title'           => 'required',
+        'published_start' => 'required',
+        'slug'            => 'required|unique:lovata_good_news_articles',
     ];
 
-    public $customMessages = [];
-    public $attributeNames = [];
+    public $attributeNames = [
+        'title'           => 'lovata.toolbox::lang.field.title',
+        'slug'            => 'lovata.toolbox::lang.field.slug',
+        'published_start' => 'lovata.goodnews::lang.field.published_start',
+    ];
+
     public $dates = ['created_at', 'updated_at', 'published_start', 'published_stop'];
 
     public $belongsTo = [
         'category' => [
-            'Lovata\GoodNews\Models\Category',
-            'table' => 'lovata_articles_categories',
+            Category::class,
         ],
     ];
 
     public $attachOne = [
-        'image' => ['System\Models\File'],
-        'preview_image' => ['System\Models\File'],
+        'preview_image' => 'System\Models\File'
     ];
-    
-    public function __construct(array $attributes = [])
-    {
-        $this->setCustomMessage(Plugin::NAME, ['required', 'unique']);
-        $this->setCustomAttributeName(Plugin::NAME, ['title', 'slug']);
 
-        if(PluginManager::instance()->hasPlugin('Lovata.GoodNewsShopaholic')) {
-            $this->belongsToMany['product'] = \Lovata\GoodNewsShopaholic\Plugin::getProductRelationConfig();
-            $this->belongsToMany['category_product'] = \Lovata\GoodNewsShopaholic\Plugin::getCategoryRelationConfig();
+    public $attachMany = [
+        'images' => 'System\Models\File'
+    ];
+
+    public $fillable = [
+        'status_id',
+        'category_id',
+        'title',
+        'slug',
+        'preview_text',
+        'content',
+        'published_start',
+        'published_stop',
+        'view_count',
+    ];
+
+    public $cached = [
+        'status_id',
+        'category_id',
+        'title',
+        'slug',
+        'preview_text',
+        'content',
+        'published_start',
+        'published_stop',
+        'view_count',
+        'preview_image',
+        'images',
+    ];
+
+    /**
+     * Get element by status_id value
+     * @param \Illuminate\Database\Eloquent\Builder|\October\Rain\Database\Builder $obQuery
+     * @param string                                                               $sData
+     * @return \Illuminate\Database\Eloquent\Builder|\October\Rain\Database\Builder
+     */
+    public function scopeGetByStatus($obQuery, $sData)
+    {
+        if (!empty($sData)) {
+            $obQuery->where('status_id', $sData);
         }
-        
-        parent::__construct($attributes);
-    }
 
-    public function afterSave()
-    {
-        $this->clearCache();
-    }
-
-    public function afterDelete()
-    {
-        $this->clearCache();
+        return $obQuery;
     }
 
     /**
-     * Clear cache data
+     * Get element by status_id value
+     * @param \Illuminate\Database\Eloquent\Builder|\October\Rain\Database\Builder $obQuery
+     * @param array                                                                $arData
+     * @return \Illuminate\Database\Eloquent\Builder|\October\Rain\Database\Builder
      */
-    public function clearCache()
+    public function scopeGetByStatusIn($obQuery, $arData)
     {
-        CCache::clear([Plugin::CACHE_TAG, self::CACHE_TAG_ELEMENT], $this->id);
-        CCache::clear([Plugin::CACHE_TAG, self::CACHE_TAG_LIST]);
-    }
-    
-    /**
-     * Get top articles
-     * @param Builder $obQuery
-     * @return Builder;
-     */
-    protected function scopeTop($obQuery)
-    {
-        return $obQuery->where('top', true);
+        if (!empty($arData)) {
+            $obQuery->whereIn('status_id', $arData);
+        }
+
+        return $obQuery;
     }
 
     /**
-     * Get hot articles
-     * @param Builder $obQuery
-     * @return Builder;
+     * Get published elements
+     * @param \Illuminate\Database\Eloquent\Builder|\October\Rain\Database\Builder $obQuery
+     * @return \Illuminate\Database\Eloquent\Builder|\October\Rain\Database\Builder
      */
-    protected function scopeHot($obQuery)
+    public function scopeGetPublished($obQuery)
     {
-        return $obQuery->where('hot', true);
+        $sDateNow = Argon::now()->format('Y-m-d H:i:s');
+
+        return $obQuery->where('published_start', '<=', $sDateNow)
+            ->where(function ($obQuery) use ($sDateNow) {
+                /** @var Article $obQuery */
+                $obQuery->whereNull('published_stop')->orWhere('published_stop', '>', $sDateNow);
+            });
     }
 
     /**
-     * Get element data
-     * @param string $sDateFormat
+     * Get status_id options
      * @return array
      */
-    public function getData($sDateFormat)
+    public function getStatusIdOptions()
     {
-        if(empty($sDateFormat)) {
-            $sDateFormat = 'd.m.Y';
-        }
-        
-        $arResult = [
-            'id' => $this->id,
-            'title' => $this->title,
-            'slug' => $this->slug,
-            'preview' => $this->preview,
-            'content' => $this->content,
-            'published' => $this->published,
-            'published_start' => $this->getDateValue('published_start', $sDateFormat),
-            'published_stop' => $this->getDateValue('published_stop', $sDateFormat),
-            'top' => $this->top,
-            'hot' => $this->hot,
-            'image' => $this->getFileData('image'),
-            'preview_image' => $this->getFileData('preview_image'),
-            'category_id' => $this->category_id,
-            'category_name' => $this->getCategoryName(),
-            'author' => $this->author,
-            'photo_author' => $this->photo_author,
+        return [
+            self::STATUS_NEW       => Lang::get('lovata.goodnews::lang.status.'.self::STATUS_NEW),
+            self::STATUS_IN_WORK   => Lang::get('lovata.goodnews::lang.status.'.self::STATUS_IN_WORK),
+            self::STATUS_PUBLISHED => Lang::get('lovata.goodnews::lang.status.'.self::STATUS_PUBLISHED),
         ];
-        
-        return $arResult;
-    }
-    
-    /**
-     * Get cached data
-     * @param $iElementID
-     * @param null|Article $obElement
-     * @param string $sDateFormat
-     * @return array|null
-     */
-    public static function getCacheData($iElementID, $sDateFormat, $obElement = null)
-    {
-        if(empty($iElementID)) {
-            return [];
-        }
-
-        //Get cache data
-        $arCacheTags = [Plugin::CACHE_TAG, self::CACHE_TAG_ELEMENT];
-        $sCacheKey = $iElementID;
-
-        $arResult = CCache::get($arCacheTags, $sCacheKey);
-        if(!empty($arResult)) {
-            return $arResult;
-        }
-
-        //Get element object
-        if(empty($obElement)) {
-            $obElement = self::find($iElementID);
-        }
-
-        if(empty($obElement)) {
-            return [];
-        }
-
-        $arResult = $obElement->getData($sDateFormat);
-
-        //Set cache data
-        $iCacheTime = Settings::getCacheTime('cache_time_article');
-        CCache::put($arCacheTags, $sCacheKey, $arResult, $iCacheTime);
-
-        return $arResult;
-    }
-
-    /**
-     * Get category name
-     * @return null|string
-     */
-    public function getCategoryName() {
-        
-        $obCategory = $this->category;
-        if(empty($obCategory)) {
-            return null;
-        }
-        
-        return $obCategory->name;
     }
 }

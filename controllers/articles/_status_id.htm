@@ -1,0 +1,6 @@
+<?php
+
+/** @var \Lovata\GoodNews\Models\Article $record */
+if(!empty($record->status_id)) {
+    echo \Lang::get('lovata.goodnews::lang.status.'.$record->status_id);
+}

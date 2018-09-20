@@ -2,14 +2,14 @@
 
 use Lovata\Toolbox\Classes\Component\ElementData;
 
-use Lovata\GoodNews\Classes\Item\ArticleItem;
+use Lovata\GoodNews\Classes\Item\CategoryItem;
 
 /**
- * Class ArticleData
+ * Class CategoryData
  * @package Lovata\GoodNews\Components
  * @author Andrey Kahranenka, a.khoronenko@lovata.com, LOVATA Group
  */
-class ArticleData extends ElementData
+class CategoryData extends ElementData
 {
     /**
      * @return array
@@ -17,18 +17,18 @@ class ArticleData extends ElementData
     public function componentDetails()
     {
         return [
-            'name'        => 'lovata.goodnews::lang.component.article_data',
-            'description' => 'lovata.goodnews::lang.component.article_data_desc'
+            'name'        => 'lovata.goodnews::lang.component.category_data',
+            'description' => 'lovata.goodnews::lang.component.category_data_desc'
         ];
     }
 
     /**
      * Make new element item
      * @param int $iElementID
-     * @return ArticleItem
+     * @return CategoryItem
      */
     protected function makeItem($iElementID)
     {
-        return ArticleItem::make($iElementID);
+        return CategoryItem::make($iElementID);
     }
 }

@@ -9,12 +9,27 @@ navigation:
         label: 'lovata.goodnews::lang.menu.article'
         url: lovata/goodnews/articles
         icon: icon-newspaper-o
+        permissions:
+            - 'good-news-menu-*'
         sideMenu:
             side-good-news-article:
                 label: 'lovata.goodnews::lang.menu.article'
                 url: lovata/goodnews/articles
                 icon: icon-newspaper-o
+                permissions:
+                    - 'good-news-menu-article'
             side-good-news-category:
                 label: 'lovata.goodnews::lang.menu.category'
                 url: lovata/goodnews/categories
                 icon: icon-sitemap
+                permissions:
+                    - 'good-news-menu-category'
+permissions:
+    good-news-menu-article:
+        tab: 'lovata.goodnews::lang.tab.permissions'
+        label: 'lovata.goodnews::lang.permission.article'
+        order: 100
+    good-news-menu-category:
+        tab: 'lovata.goodnews::lang.tab.permissions'
+        label: 'lovata.goodnews::lang.permission.category'
+        order: 100
