@@ -74,8 +74,8 @@ class ArticleModelHandler extends ModelHandler
         if ($this->isFieldChanged('category_id') && !empty($this->obElement->category_id)) {
             $this->clearByCategory($this->obElement->category_id);
         }
-
-        $this->setCacheDatePublished();
+        $this->setCacheDatePublishedStart();
+        $this->setCacheDatePublishedStop();
     }
 
     /**
@@ -94,8 +94,8 @@ class ArticleModelHandler extends ModelHandler
                 $this->clearByCategory($this->obElement->category_id);
             }
         }
-
-        $this->setCacheDatePublished();
+        $this->setCacheDatePublishedStart();
+        $this->setCacheDatePublishedStop();
     }
 
     /**
@@ -137,9 +137,9 @@ class ArticleModelHandler extends ModelHandler
     }
 
     /**
-     * Cached published start and published stop
+     * Cached min date published start
      */
-    protected function setCacheDatePublished()
+    protected function setCacheDatePublishedStart()
     {
         $obArticle = Article::getByPublishedStart()
             ->getByStatus(Article::STATUS_PUBLISHED)
@@ -153,7 +153,14 @@ class ArticleModelHandler extends ModelHandler
                 'category_id'     => $obArticle->category_id,
             ];
         }
+        Cache::forever(self::CACHE_TAG_DATA_PUBLISHED_START, $arPublishedStart);
+    }
 
+    /**
+     * Cached min date published stop
+     */
+    protected function setCacheDatePublishedStop()
+    {
         $obArticle = Article::getByPublishedStop()
             ->getByStatus(Article::STATUS_PUBLISHED)
             ->orderBy('published_stop', 'asc')
@@ -166,8 +173,6 @@ class ArticleModelHandler extends ModelHandler
                 'category_id'    => $obArticle->category_id,
             ];
         }
-
-        Cache::forever(self::CACHE_TAG_DATA_PUBLISHED_START, $arPublishedStart);
         Cache::forever(self::CACHE_TAG_DATA_PUBLISHED_STOP, $arPublishedStop);
     }
 
@@ -184,7 +189,7 @@ class ArticleModelHandler extends ModelHandler
         $bClear = false;
 
         if (!empty($arPublishedStart) && $arPublishedStart['published_start'] < $sDataNow) {
-            Cache::forever(self::CACHE_TAG_DATA_PUBLISHED_START, null);
+            $this->setCacheDatePublishedStart();
             $bClear = true;
             if (!empty($arPublishedStart['category_id'])) {
                 $this->clearByCategory($arPublishedStart['category_id']);
@@ -192,7 +197,7 @@ class ArticleModelHandler extends ModelHandler
         }
 
         if (!empty($arPublishedStop) && $arPublishedStop['published_stop'] < $sDataNow) {
-            Cache::forever(self::CACHE_TAG_DATA_PUBLISHED_STOP, null);
+            $this->setCacheDatePublishedStop();
             $bClear = true;
             if (!empty($arPublishedStop['category_id'])) {
                 $this->clearByCategory($arPublishedStop['category_id']);
