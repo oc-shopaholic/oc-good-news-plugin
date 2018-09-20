@@ -1,8 +1,9 @@
 <?php namespace Lovata\GoodNews\Components;
 
-use Lovata\GoodNews\Classes\Item\CategoryItem;
-use Lovata\GoodNews\Models\Category;
 use Lovata\Toolbox\Classes\Component\ElementPage;
+
+use Lovata\GoodNews\Models\Category;
+use Lovata\GoodNews\Classes\Item\CategoryItem;
 
 /**
  * Class CategoryPage

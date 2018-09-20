@@ -9,11 +9,10 @@ use Lovata\GoodNews\Classes\Collection\CategoryCollection;
  * Class Category
  * @package Lovata\GoodNews\Classes\Item
  * @author  Dmitry Drozd, d.drozd@lovata.com, LOVATA Group
- * @property                                   $id
+ * @property int                               $id
  * @property string                            $name
  * @property string                            $slug
  * @property string                            $code
- * @property string                            $active
  * @property int                               $nest_depth
  * @property int                               $parent_id
  * @property string                            $preview_text
@@ -29,7 +28,7 @@ class CategoryItem extends ElementItem
     const MODEL_CLASS = Category::class;
 
     /** @var Category */
-    protected $obElement = null;
+    protected $obElement;
 
     public $arRelationList = [
         'parent'   => [
@@ -59,29 +58,5 @@ class CategoryItem extends ElementItem
             ->lists('id');
 
         return $arResult;
-    }
-
-    /**
-     * Get Breadcrumbs
-     * @param array $arResult
-     * @param bool  $bSetFalse
-     * @return array
-     */
-    public function getBreadcrumbs(&$arResult = [], $bSetFalse = false)
-    {
-        $arResult[] = [
-            'id'     => $this->id,
-            'name'   => $this->name,
-            'slug'   => $this->slug,
-            'active' => $bSetFalse ? false : true,
-            'page'   => 'goodnews_category',
-        ];
-
-        if ($this->parent_id) {
-            $obCategory = $this->parent;
-            $obCategory->getBreadcrumbs($arResult, true);
-        }
-
-        return array_reverse($arResult);
     }
 }

@@ -1,9 +1,10 @@
 <?php namespace Lovata\GoodNews\Classes\Event;
 
-use Lovata\GoodNews\Classes\Store\CategoryListStore;
-use Lovata\GoodNews\Classes\Item\CategoryItem;
-use Lovata\GoodNews\Models\Category;
 use Lovata\Toolbox\Classes\Event\ModelHandler;
+
+use Lovata\GoodNews\Models\Category;
+use Lovata\GoodNews\Classes\Item\CategoryItem;
+use Lovata\GoodNews\Classes\Store\CategoryListStore;
 
 /**
  * Class CategoryModelHandler
@@ -40,24 +41,6 @@ class CategoryModelHandler extends ModelHandler
     }
 
     /**
-     * Get model class name
-     * @return string
-     */
-    protected function getModelClass()
-    {
-        return Category::class;
-    }
-
-    /**
-     * Get item class name
-     * @return string
-     */
-    protected function getItemClass()
-    {
-        return CategoryItem::class;
-    }
-
-    /**
      * After save event handler
      */
     protected function afterSave()
@@ -86,5 +69,23 @@ class CategoryModelHandler extends ModelHandler
         if ($this->obElement->active) {
             CategoryListStore::instance()->active->clear();
         }
+    }
+
+    /**
+     * Get model class name
+     * @return string
+     */
+    protected function getModelClass()
+    {
+        return Category::class;
+    }
+
+    /**
+     * Get item class name
+     * @return string
+     */
+    protected function getItemClass()
+    {
+        return CategoryItem::class;
     }
 }

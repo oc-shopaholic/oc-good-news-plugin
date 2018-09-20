@@ -1,8 +1,9 @@
 <?php namespace Lovata\GoodNews\Components;
 
+use Lovata\Toolbox\Classes\Component\ElementPage;
+
 use Lovata\GoodNews\Models\Article;
 use Lovata\GoodNews\Classes\Item\ArticleItem;
-use Lovata\Toolbox\Classes\Component\ElementPage;
 
 /**
  * Class ArticlePage
@@ -58,6 +59,7 @@ class ArticlePage extends ElementPage
     protected function makeItem($iElementID, $obElement)
     {
         $obElementItem = ArticleItem::make($iElementID, $obElement);
+
         return $obElementItem;
     }
 }

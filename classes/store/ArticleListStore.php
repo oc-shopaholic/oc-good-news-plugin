@@ -33,20 +33,4 @@ class ArticleListStore extends AbstractListStore
         $this->addToStoreList('sorting', SortingListStore::class);
         $this->addToStoreList('published', PublishedListStore::class);
     }
-
-    /**
-     * Get available sorting value list
-     *
-     * @return array
-     */
-    public function getAvailableSorting()
-    {
-        return [
-            self::SORT_NO,
-            self::SORT_PUBLISH_ASC,
-            self::SORT_PUBLISH_DESC,
-            self::SORT_VIEW_COUNT_ASC,
-            self::SORT_VIEW_COUNT_DESC,
-        ];
-    }
 }

@@ -1,7 +1,8 @@
 <?php namespace Lovata\GoodNews\Components;
 
-use Lovata\GoodNews\Classes\Item\CategoryItem;
 use Lovata\Toolbox\Classes\Component\ElementData;
+
+use Lovata\GoodNews\Classes\Item\CategoryItem;
 
 /**
  * Class CategoryData
@@ -10,8 +11,6 @@ use Lovata\Toolbox\Classes\Component\ElementData;
  */
 class CategoryData extends ElementData
 {
-    protected $iElementID;
-
     /**
      * @return array
      */

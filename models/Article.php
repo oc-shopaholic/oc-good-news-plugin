@@ -43,8 +43,6 @@ use Lovata\Toolbox\Traits\Helpers\TraitCached;
  * @method static $this getByStatus($sData)
  * @method static $this getByStatusIn($arData)
  * @method static $this getPublished()
- * @method static $this getByPublishedStart()
- * @method static $this getByPublishedStop()
  *
  */
 class Article extends Model
@@ -64,13 +62,15 @@ class Article extends Model
     public $table = 'lovata_good_news_articles';
 
     public $rules = [
-        'title' => 'required',
-        'slug'  => 'required|unique:lovata_good_news_articles',
+        'title'           => 'required',
+        'published_start' => 'required',
+        'slug'            => 'required|unique:lovata_good_news_articles',
     ];
 
     public $attributeNames = [
-        'lovata.toolbox::lang.field.title',
-        'lovata.toolbox::lang.field.slug',
+        'title'           => 'lovata.toolbox::lang.field.title',
+        'slug'            => 'lovata.toolbox::lang.field.slug',
+        'published_start' => 'lovata.goodnews::lang.field.published_start',
     ];
 
     public $dates = ['created_at', 'updated_at', 'published_start', 'published_stop'];
@@ -114,13 +114,6 @@ class Article extends Model
         'preview_image',
         'images',
     ];
-
-    public function beforeSave()
-    {
-        if ($this->status_id == self::STATUS_PUBLISHED && empty($this->published_start)) {
-            $this->published_start = Argon::now();
-        }
-    }
 
     /**
      * Get element by status_id value
@@ -166,36 +159,6 @@ class Article extends Model
                 /** @var Article $obQuery */
                 $obQuery->whereNull('published_stop')->orWhere('published_stop', '>', $sDateNow);
             });
-    }
-
-    /**
-     * Get element by published_start value
-     * @param \Illuminate\Database\Eloquent\Builder|\October\Rain\Database\Builder $obQuery
-     * @return \Illuminate\Database\Eloquent\Builder|\October\Rain\Database\Builder
-     */
-    public function scopeGetByPublishedStart($obQuery)
-    {
-        $sData = Argon::now()->format('Y-m-d H:i:s');
-        if (!empty($sData)) {
-            $obQuery->where('published_start', '>', $sData);
-        }
-
-        return $obQuery;
-    }
-
-    /**
-     * Get element by published_stop value
-     * @param \Illuminate\Database\Eloquent\Builder|\October\Rain\Database\Builder $obQuery
-     * @return \Illuminate\Database\Eloquent\Builder|\October\Rain\Database\Builder
-     */
-    public function scopeGetByPublishedStop($obQuery)
-    {
-        $sData = Argon::now()->format('Y-m-d H:i:s');
-        if (!empty($sData)) {
-            $obQuery->where('published_stop', '>', $sData);
-        }
-
-        return $obQuery;
     }
 
     /**

@@ -1,8 +1,10 @@
 <?php namespace Lovata\GoodNews\Classes\Store\Article;
 
+use Event;
+use Lovata\Toolbox\Classes\Store\AbstractStoreWithParam;
+
 use Lovata\GoodNews\Models\Article;
 use Lovata\GoodNews\Classes\Store\ArticleListStore;
-use Lovata\Toolbox\Classes\Store\AbstractStoreWithParam;
 
 /**
  * Class SortingListStore
@@ -35,6 +37,9 @@ class SortingListStore extends AbstractStoreWithParam
             case ArticleListStore::SORT_VIEW_COUNT_DESC:
                 $arElementIDList = $this->getByViewsDESC();
                 break;
+            default:
+                $arElementIDList = $this->getCustomSortingList();
+                break;
         }
 
         return $arElementIDList;
@@ -46,9 +51,7 @@ class SortingListStore extends AbstractStoreWithParam
      */
     protected function getArticleList() : array
     {
-        $arElementIDList = (array) Article::getPublished()
-            ->getByStatus(Article::STATUS_PUBLISHED)
-            ->lists('id');
+        $arElementIDList = (array) Article::lists('id');
 
         return $arElementIDList;
     }
@@ -59,12 +62,7 @@ class SortingListStore extends AbstractStoreWithParam
      */
     protected function getByPublishASC() : array
     {
-        $arElementIDList = (array) Article::getPublished()
-            ->getByStatus(Article::STATUS_PUBLISHED)
-            ->orderBy('published_start', 'asc')
-            ->lists('id');
-
-        $arElementIDList = array_unique($arElementIDList);
+        $arElementIDList = (array) Article::orderBy('published_start', 'asc')->lists('id');
 
         return $arElementIDList;
     }
@@ -75,12 +73,7 @@ class SortingListStore extends AbstractStoreWithParam
      */
     protected function getByPublishDESC() : array
     {
-        $arElementIDList = (array) Article::getPublished()
-            ->getByStatus(Article::STATUS_PUBLISHED)
-            ->orderBy('published_start', 'desc')
-            ->lists('id');
-
-        $arElementIDList = array_unique($arElementIDList);
+        $arElementIDList = (array) Article::orderBy('published_start', 'desc')->lists('id');
 
         return $arElementIDList;
     }
@@ -91,12 +84,7 @@ class SortingListStore extends AbstractStoreWithParam
      */
     protected function getByViewsASC() : array
     {
-        $arElementIDList = (array) Article::getPublished()
-            ->getByStatus(Article::STATUS_PUBLISHED)
-            ->orderBy('view_count', 'asc')
-            ->lists('id');
-
-        $arElementIDList = array_unique($arElementIDList);
+        $arElementIDList = (array) Article::orderBy('view_count', 'asc')->lists('id');
 
         return $arElementIDList;
     }
@@ -107,12 +95,21 @@ class SortingListStore extends AbstractStoreWithParam
      */
     protected function getByViewsDESC() : array
     {
-        $arElementIDList = (array) Article::getPublished()
-            ->getByStatus(Article::STATUS_PUBLISHED)
-            ->orderBy('view_count', 'asc')
-            ->lists('id');
+        $arElementIDList = (array) Article::orderBy('view_count', 'asc')->lists('id');
 
-        $arElementIDList = array_unique($arElementIDList);
+        return $arElementIDList;
+    }
+
+    /**
+     * Get element list with custom sorting
+     * @return array
+     */
+    protected function getCustomSortingList() : array
+    {
+        $arElementIDList = Event::fire('good_news.sorting.get.list', $this->sValue, true);
+        if (empty($arElementIDList) || !is_array($arElementIDList)) {
+            return [];
+        }
 
         return $arElementIDList;
     }

@@ -11,8 +11,6 @@ use Lovata\GoodNews\Classes\Item\ArticleItem;
  */
 class ArticleData extends ElementData
 {
-    protected $iElementID;
-
     /**
      * @return array
      */
