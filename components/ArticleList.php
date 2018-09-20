@@ -2,9 +2,10 @@
 
 use Lang;
 use Event;
-use Lovata\GoodNews\Classes\Collection\ArticleCollection;
-use Lovata\GoodNews\Classes\Store\ArticleListStore;
 use Lovata\Toolbox\Classes\Component\SortingElementList;
+
+use Lovata\GoodNews\Classes\Store\ArticleListStore;
+use Lovata\GoodNews\Classes\Collection\ArticleCollection;
 
 /**
  * Class ArticleList

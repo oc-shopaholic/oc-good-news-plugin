@@ -4,15 +4,24 @@ use Schema;
 use October\Rain\Database\Schema\Blueprint;
 use October\Rain\Database\Updates\Migration;
 
+/**
+ * Class CreateTableArticles
+ * @package Lovata\GoodNews\Updates
+ */
 class CreateTableArticles extends Migration
 {
+    const TABLE_NAME = 'lovata_good_news_articles';
+
+    /**
+     * Apply migration
+     */
     public function up()
     {
-        if(Schema::hasTable('lovata_good_news_articles')) {
+        if(Schema::hasTable(self::TABLE_NAME)) {
             return;
         }
         
-        Schema::create('lovata_good_news_articles', function(Blueprint $table)
+        Schema::create(self::TABLE_NAME, function(Blueprint $table)
         {
             $table->engine = 'InnoDB';
             $table->increments('id');
@@ -35,9 +44,12 @@ class CreateTableArticles extends Migration
             $table->index('published_stop');
         });
     }
-    
+
+    /**
+     * Rollback migration
+     */
     public function down()
     {
-        Schema::dropIfExists('lovata_good_news_articles');
+        Schema::dropIfExists(self::TABLE_NAME);
     }
 }

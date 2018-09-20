@@ -3,6 +3,7 @@
 use Model;
 use October\Rain\Database\Traits\Validation;
 use October\Rain\Database\Traits\NestedTree;
+
 use Lovata\Toolbox\Traits\Helpers\TraitCached;
 
 use Kharanenka\Helper\DataFileModel;
@@ -14,30 +15,30 @@ use Kharanenka\Scope\CodeField;
 /**
  * Class Category
  * @package Lovata\GoodNews\Models
- * @author Andrey Kahranenka, a.khoronenko@lovata.com, LOVATA Group
+ * @author  Andrey Kahranenka, a.khoronenko@lovata.com, LOVATA Group
  *
  * @mixin \October\Rain\Database\Builder
  * @mixin \Eloquent
  *
- * @property integer $id
- * @property boolean $active
- * @property string $name
- * @property string $slug
- * @property string $code
- * @property string $preview_text
- * @property string $description
- * @property int $parent_id
- * @property int $nest_left
- * @property int $nest_right
- * @property int $nest_depth
- * @property \October\Rain\Argon\Argon $created_at
- * @property \October\Rain\Argon\Argon $updated_at
+ * @property integer                                                 $id
+ * @property boolean                                                 $active
+ * @property string                                                  $name
+ * @property string                                                  $slug
+ * @property string                                                  $code
+ * @property string                                                  $preview_text
+ * @property string                                                  $description
+ * @property int                                                     $parent_id
+ * @property int                                                     $nest_left
+ * @property int                                                     $nest_right
+ * @property int                                                     $nest_depth
+ * @property \October\Rain\Argon\Argon                               $created_at
+ * @property \October\Rain\Argon\Argon                               $updated_at
  *
- * @property \System\Models\File $preview_image
+ * @property \System\Models\File                                     $preview_image
  * @property \October\Rain\Database\Collection|\System\Models\File[] $images
  *
- * @property Category $parent
- * @property \October\Rain\Database\Collection|Category[] $children
+ * @property Category                                                $parent
+ * @property \October\Rain\Database\Collection|Category[]            $children
  *
  * @method static \October\Rain\Database\Relations\HasMany|Category children()
  */

@@ -1,7 +1,8 @@
 <?php namespace Lovata\GoodNews\Components;
 
-use Lovata\GoodNews\Classes\Item\ArticleItem;
 use Lovata\Toolbox\Classes\Component\ElementData;
+
+use Lovata\GoodNews\Classes\Item\ArticleItem;
 
 /**
  * Class ArticleData
