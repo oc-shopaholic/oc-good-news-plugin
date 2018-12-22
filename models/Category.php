@@ -54,7 +54,8 @@ class Category extends Model
     use TraitCached;
 
     public $table = 'lovata_good_news_categories';
-
+    /** @var array */
+    public $implement = ['@RainLab.Translate.Behaviors.TranslatableModel'];
     public $rules = [
         'name' => 'required',
         'slug' => 'required|unique:lovata_good_news_categories',

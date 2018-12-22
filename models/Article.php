@@ -60,7 +60,8 @@ class Article extends Model
     const STATUS_PUBLISHED = 4;
 
     public $table = 'lovata_good_news_articles';
-
+    /** @var array */
+    public $implement = ['@RainLab.Translate.Behaviors.TranslatableModel'];
     public $rules = [
         'title'           => 'required',
         'published_start' => 'required',
@@ -102,6 +103,7 @@ class Article extends Model
     ];
 
     public $cached = [
+        'id',
         'status_id',
         'category_id',
         'title',
