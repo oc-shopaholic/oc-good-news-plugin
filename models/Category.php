@@ -56,6 +56,8 @@ class Category extends Model
     public $table = 'lovata_good_news_categories';
     /** @var array */
     public $implement = ['@RainLab.Translate.Behaviors.TranslatableModel'];
+    /** @var array */
+    public $translatable = ['name', 'preview_text', 'description'];
     public $rules = [
         'name' => 'required',
         'slug' => 'required|unique:lovata_good_news_categories',
