@@ -95,7 +95,7 @@ class SortingListStore extends AbstractStoreWithParam
      */
     protected function getByViewsDESC() : array
     {
-        $arElementIDList = (array) Article::orderBy('view_count', 'asc')->lists('id');
+        $arElementIDList = (array) Article::orderBy('view_count', 'desc')->lists('id');
 
         return $arElementIDList;
     }
