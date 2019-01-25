@@ -7,6 +7,8 @@ scopes:
         label: 'lovata.goodnews::lang.field.status'
         type: group
         conditions: status_id in (:filtered)
+        modelClass: Lovata\GoodNews\Models\Article
+        options: getStatusIdOptions
     category:
             label: 'lovata.toolbox::lang.field.category'
             modelClass: Lovata\GoodNews\Models\Category
