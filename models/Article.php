@@ -102,6 +102,7 @@ class Article extends Model
     ];
 
     public $cached = [
+        'id',
         'status_id',
         'category_id',
         'title',
