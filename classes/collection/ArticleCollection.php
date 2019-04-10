@@ -9,7 +9,7 @@ use Lovata\GoodNews\Classes\Store\ArticleListStore;
 /**
  * Class ArticleCollection
  * @package Lovata\GoodNews\Classes\Item
- * @author Dmitry Drozd, d.drozd@lovata.com, LOVATA Group
+ * @author Andrey Kharanenka, a.khoronenko@lovata.com, LOVATA Group
  */
 class ArticleCollection extends ElementCollection
 {

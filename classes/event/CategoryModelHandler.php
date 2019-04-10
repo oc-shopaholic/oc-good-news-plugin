@@ -9,7 +9,7 @@ use Lovata\GoodNews\Classes\Store\CategoryListStore;
 /**
  * Class CategoryModelHandler
  * @package Lovata\GoodNews\Classes\Event
- * @author Dmitry Drozd, d.drozd@lovata.com, LOVATA Group
+ * @author Andrey Kharanenka, a.khoronenko@lovata.com, LOVATA Group
  */
 class CategoryModelHandler extends ModelHandler
 {

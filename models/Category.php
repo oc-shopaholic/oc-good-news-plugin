@@ -78,6 +78,11 @@ class Category extends Model
         'images' => 'System\Models\File'
     ];
 
+    public $belongsTo = [];
+    public $hasMany = ['article' => Article::class];
+    public $belongsToMany = [];
+    public $morphMany = [];
+
     public $fillable = [
         'name',
         'slug',

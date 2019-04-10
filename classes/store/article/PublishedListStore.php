@@ -1,7 +1,9 @@
 <?php namespace Lovata\GoodNews\Classes\Store\Article;
 
 use October\Rain\Argon\Argon;
+
 use Kharanenka\Helper\CCache;
+
 use Lovata\Toolbox\Classes\Store\AbstractStoreWithoutParam;
 
 use Lovata\GoodNews\Models\Article;
