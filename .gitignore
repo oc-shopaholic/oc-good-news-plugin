@@ -5,6 +5,7 @@ Homestead.yaml
 pdf/
 _backup/
 cgi-bin/
+build.sh
 
 *.log
 *.bin

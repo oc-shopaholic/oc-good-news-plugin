@@ -8,7 +8,7 @@ use Lovata\GoodNews\Classes\Collection\CategoryCollection;
 /**
  * Class Category
  * @package Lovata\GoodNews\Classes\Item
- * @author  Dmitry Drozd, d.drozd@lovata.com, LOVATA Group
+ * @author  Andrey Kharanenka, a.khoronenko@lovata.com, LOVATA Group
  * @property int                               $id
  * @property string                            $name
  * @property string                            $slug

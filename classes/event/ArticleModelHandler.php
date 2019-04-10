@@ -17,33 +17,6 @@ class ArticleModelHandler extends ModelHandler
     protected $obElement;
 
     /**
-     * Add listeners
-     * @param \Illuminate\Events\Dispatcher $obEvent
-     */
-    public function subscribe($obEvent)
-    {
-        parent::subscribe($obEvent);
-    }
-
-    /**
-     * Get model class name
-     * @return string
-     */
-    protected function getModelClass()
-    {
-        return Article::class;
-    }
-
-    /**
-     * Get item class name
-     * @return string
-     */
-    protected function getItemClass()
-    {
-        return ArticleItem::class;
-    }
-
-    /**
      * After create event handler
      */
     protected function afterCreate()
@@ -108,5 +81,23 @@ class ArticleModelHandler extends ModelHandler
     {
         ArticleListStore::instance()->sorting->clear(ArticleListStore::SORT_VIEW_COUNT_ASC);
         ArticleListStore::instance()->sorting->clear(ArticleListStore::SORT_VIEW_COUNT_DESC);
+    }
+
+    /**
+     * Get model class name
+     * @return string
+     */
+    protected function getModelClass()
+    {
+        return Article::class;
+    }
+
+    /**
+     * Get item class name
+     * @return string
+     */
+    protected function getItemClass()
+    {
+        return ArticleItem::class;
     }
 }
