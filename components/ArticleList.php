@@ -13,9 +13,6 @@ use Lovata\GoodNews\Classes\Collection\ArticleCollection;
  */
 class ArticleList extends SortingElementList
 {
-    /** @var  ArticleListStore */
-    protected $obArticleListStore;
-
     /**
      * @return array
      */
@@ -59,7 +56,7 @@ class ArticleList extends SortingElementList
     {
         return ArticleCollection::make($arElementIDList);
     }
-    
+
     public function onAjaxRequest()
     {
         return true;

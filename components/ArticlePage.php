@@ -25,7 +25,7 @@ class ArticlePage extends ElementPage
             'description' => 'lovata.goodnews::lang.component.article_page_desc'
         ];
     }
-    
+
     /**
      * Get element object
      * @param string $sElementSlug
@@ -36,17 +36,17 @@ class ArticlePage extends ElementPage
         if(empty($sElementSlug)) {
             return null;
         }
-        
+
         $obElement = Article::getBySlug($sElementSlug)
             ->getByStatus(Article::STATUS_PUBLISHED)
             ->getPublished()
             ->first();
-        
+
         if(!empty($obElement)) {
             $obElement->view_count++;
             $obElement->save();
         }
-        
+
         return $obElement;
     }
 
