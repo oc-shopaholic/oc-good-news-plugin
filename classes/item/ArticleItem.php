@@ -1,6 +1,9 @@
 <?php namespace Lovata\GoodNews\Classes\Item;
 
+use Cms\Classes\Page as CmsPage;
+
 use Lovata\Toolbox\Classes\Item\ElementItem;
+use Lovata\Toolbox\Classes\Helper\PageHelper;
 
 use Lovata\GoodNews\Models\Article;
 
@@ -34,4 +37,45 @@ class ArticleItem extends ElementItem
             'field' => 'category_id',
         ],
     ];
+
+    /**
+     * Returns URL of a category page.
+     *
+     * @param string $sPageCode
+     *
+     * @return string
+     */
+    public function getPageUrl($sPageCode)
+    {
+        //Get URL params
+        $arParamList = $this->getPageParamList($sPageCode);
+
+        //Generate page URL
+        $sURL = CmsPage::url($sPageCode, $arParamList);
+        return $sURL;
+    }
+
+    /**
+     * Get URL param list by page code
+     * @param string $sPageCode
+     * @return array
+     */
+    public function getPageParamList($sPageCode): array
+    {
+
+        $arPageParamList = [];
+
+        //Get URL params for categories
+        $aCategoryParamList = $this->category->getPageParamList($sPageCode);
+
+        $arParamList = (array)PageHelper::instance()->getUrlParamList($sPageCode, 'ArticlePage');
+        if (!empty($arParamList)) {
+            $sPageParam = array_shift($arParamList);
+            $arPageParamList[$sPageParam] = $this->slug;
+        }
+
+        $arPageParamList = array_merge($aCategoryParamList, $arPageParamList);
+
+        return $arPageParamList;
+    }
 }
