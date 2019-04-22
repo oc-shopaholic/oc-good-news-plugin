@@ -1,27 +1,27 @@
 <?php return [
     'plugin'    => [
         'name'        => 'GoodNews',
-        'description' => 'Articles plugin',
+        'description' => 'Artikel-Plugin',
     ],
     'field'     => [
-        'content'         => 'Article content',
-        'published_start' => 'Start date of publication',
-        'published_stop'  => 'Stop date of publication',
+        'content'         => 'Inhalt',
+        'published_start' => 'Veröffentlichungsdatum',
+        'published_stop'  => 'Ende der Veröffentlichung',
         'status'          => 'Status',
     ],
     'component' => [
-        'article_page'         => 'Article page',
+        'article_page'         => 'Artikelseite',
         'article_page_desc'    => '',
-        'article_data'         => 'Article data',
+        'article_data'         => 'Artikeldaten',
         'article_data_desc'    => '',
-        'article_list'         => 'Article list',
+        'article_list'         => 'Artikelliste',
         'article_list_desc'    => '',
 
-        'category_page'        => 'Category page',
+        'category_page'        => 'Kategorieseite',
         'category_page_desc'   => '',
-        'category_data'        => 'Category data',
+        'category_data'        => 'Kategoriedaten',
         'category_data_desc'   => '',
-        'category_list'        => 'Category list',
+        'category_list'        => 'Kategorieliste',
         'category_list_desc'   => '',
         
         'sorting_publish_asc'     => 'By date of publication (asc)',
