@@ -1,6 +1,9 @@
 <?php namespace Lovata\GoodNews\Classes\Item;
 
+use Cms\Classes\Page as CmsPage;
+
 use Lovata\Toolbox\Classes\Item\ElementItem;
+use Lovata\Toolbox\Classes\Helper\PageHelper;
 
 use Lovata\GoodNews\Models\Category;
 use Lovata\GoodNews\Classes\Collection\CategoryCollection;
@@ -40,6 +43,69 @@ class CategoryItem extends ElementItem
             'field' => 'children_id_list',
         ],
     ];
+
+    /**
+     * Returns URL of a category page.
+     *
+     * @param string $sPageCode
+     *
+     * @return string
+     */
+    public function getPageUrl($sPageCode)
+    {
+        //Get URL params
+        $arParamList = $this->getPageParamList($sPageCode);
+
+        //Generate page URL
+        $sURL = CmsPage::url($sPageCode, $arParamList);
+
+        return $sURL;
+    }
+
+    /**
+     * Get URL param list by page code
+     * @param string $sPageCode
+     * @return array
+     */
+    public function getPageParamList($sPageCode): array
+    {
+        //Get URL params for page
+        $arParamList = PageHelper::instance()->getUrlParamList($sPageCode, 'ArticleCategoryPage');
+        if (empty($arParamList)) {
+            return [];
+        }
+
+        $arParamList = array_reverse($arParamList);
+
+        //Get slug list
+        $arSlugList = $this->getSlugList();
+        $arSlugList = array_reverse($arSlugList);
+
+        //Prepare page property list
+        $arPagePropertyList = [];
+        foreach ($arParamList as $sParamName) {
+            $arPagePropertyList[$sParamName] = array_shift($arSlugList);
+        }
+
+        return $arPagePropertyList;
+    }
+
+    /**
+     * Get array with categories slugs
+     * @return array
+     */
+    protected function getSlugList() : array
+    {
+        $arResult = [$this->slug];
+
+        $obParentCategory = $this->parent;
+        while ($obParentCategory->isNotEmpty()) {
+            $arResult[] = $obParentCategory->slug;
+            $obParentCategory = $obParentCategory->parent;
+        }
+
+        return $arResult;
+    }
 
     /**
      * Set element data from model object
