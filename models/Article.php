@@ -78,6 +78,7 @@ class Article extends Model
 
     public $dates = ['created_at', 'updated_at', 'published_start', 'published_stop'];
 
+    public $belongsToMany = [];
     public $belongsTo = [
         'category' => [
             Category::class,

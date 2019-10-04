@@ -74,4 +74,4 @@ jobs:
         skip_cleanup: true
         on:
           tags: true
-          repo: lovata/oc-good-news-plugin
+          repo: oc-shopaholic/oc-good-news-plugin
