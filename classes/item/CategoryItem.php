@@ -75,6 +75,8 @@ class CategoryItem extends ElementItem
             return [];
         }
 
+        $arParamList = array_reverse($arParamList);
+
         //Get slug list
         $arSlugList = $this->getSlugList();
         $arSlugList = array_reverse($arSlugList);
@@ -92,7 +94,7 @@ class CategoryItem extends ElementItem
      * Get array with categories slugs
      * @return array
      */
-    protected function getSlugList(): array
+    protected function getSlugList() : array
     {
         $arResult = [$this->slug];
 

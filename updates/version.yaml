@@ -2,3 +2,5 @@
     - 'Initialize plugin.'
     - create_table_articles.php
     - create_table_categories.php
+1.1.0:
+    - 'Added getPageUrl method to ArticleItem and CategoryItem classes. Thanks for contribution Allekslar.'
