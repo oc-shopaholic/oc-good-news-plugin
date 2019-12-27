@@ -39,43 +39,86 @@ class ArticleItem extends ElementItem
     ];
 
     /**
+     * Check element, active == true, trashed == false
+     * @return bool
+     */
+    public function isActive()
+    {
+        return $this->active && !$this->trashed;
+    }
+
+    /**
      * Returns URL of a category page.
      *
      * @param string $sPageCode
+     * @param array  $arRemoveParamList
      *
      * @return string
      */
-    public function getPageUrl($sPageCode)
+    public function getPageUrl($sPageCode = 'article', $arRemoveParamList = [])
     {
         //Get URL params
-        $arParamList = $this->getPageParamList($sPageCode);
+        $arParamList = $this->getPageParamList($sPageCode, $arRemoveParamList);
 
         //Generate page URL
         $sURL = CmsPage::url($sPageCode, $arParamList);
+
         return $sURL;
     }
 
     /**
      * Get URL param list by page code
      * @param string $sPageCode
+     * @param array  $arRemoveParamList
      * @return array
      */
-    public function getPageParamList($sPageCode): array
+    public function getPageParamList($sPageCode, $arRemoveParamList = []) : array
     {
-
+        $arResult = [];
         $arPageParamList = [];
+        if (!empty($arRemoveParamList)) {
+            foreach ($arRemoveParamList as $sParamName) {
+                $arResult[$sParamName] = null;
+            }
+        }
 
         //Get URL params for categories
         $aCategoryParamList = $this->category->getPageParamList($sPageCode);
+        $aBrandParamList = $this->brand->getPageParamList($sPageCode);
 
-        $arParamList = (array)PageHelper::instance()->getUrlParamList($sPageCode, 'ArticlePage');
+        //Get URL params for page
+        $arParamList = (array) PageHelper::instance()->getUrlParamList($sPageCode, 'ArticlePage');
         if (!empty($arParamList)) {
             $sPageParam = array_shift($arParamList);
             $arPageParamList[$sPageParam] = $this->slug;
         }
 
-        $arPageParamList = array_merge($aCategoryParamList, $arPageParamList);
+        $arResult = array_merge($arResult, $aCategoryParamList, $aBrandParamList, $arPageParamList);
 
-        return $arPageParamList;
+        return $arResult;
+    }
+
+    /**
+     * Set element object
+     */
+    protected function setElementObject()
+    {
+        $this->obElement = Article::withTrashed()->find($this->iElementID);
+    }
+
+    /**
+     * Set element data from model object
+     *
+     * @return array
+     */
+    protected function getElementData()
+    {
+        $arResult = [
+            'offer_id_list'          => $this->obElement->offer()->active()->lists('id'),
+            'additional_category_id' => $this->obElement->additional_category()->lists('id'),
+            'trashed'                => $this->obElement->trashed(),
+        ];
+
+        return $arResult;
     }
 }
