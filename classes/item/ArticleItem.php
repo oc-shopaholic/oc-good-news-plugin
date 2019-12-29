@@ -1,4 +1,6 @@
-<?php namespace Lovata\GoodNews\Classes\Item;
+<?php
+
+namespace Lovata\GoodNews\Classes\Item;
 
 use Cms\Classes\Page as CmsPage;
 
@@ -72,7 +74,7 @@ class ArticleItem extends ElementItem
      * @param array  $arRemoveParamList
      * @return array
      */
-    public function getPageParamList($sPageCode, $arRemoveParamList = []) : array
+    public function getPageParamList($sPageCode, $arRemoveParamList = []): array
     {
         $arResult = [];
         $arPageParamList = [];
@@ -104,21 +106,5 @@ class ArticleItem extends ElementItem
     protected function setElementObject()
     {
         $this->obElement = Article::withTrashed()->find($this->iElementID);
-    }
-
-    /**
-     * Set element data from model object
-     *
-     * @return array
-     */
-    protected function getElementData()
-    {
-        $arResult = [
-            'offer_id_list'          => $this->obElement->offer()->active()->lists('id'),
-            'additional_category_id' => $this->obElement->additional_category()->lists('id'),
-            'trashed'                => $this->obElement->trashed(),
-        ];
-
-        return $arResult;
     }
 }
