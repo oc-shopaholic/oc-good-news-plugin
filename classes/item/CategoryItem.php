@@ -2,10 +2,14 @@
 
 use Cms\Classes\Page as CmsPage;
 
+use Kharanenka\Helper\CCache;
+
+use Lovata\Toolbox\Classes\Item\ItemStorage;
 use Lovata\Toolbox\Classes\Item\ElementItem;
 use Lovata\Toolbox\Classes\Helper\PageHelper;
 
 use Lovata\GoodNews\Models\Category;
+use Lovata\GoodNews\Classes\Collection\ArticleCollection;
 use Lovata\GoodNews\Classes\Collection\CategoryCollection;
 
 /**
@@ -45,16 +49,36 @@ class CategoryItem extends ElementItem
     ];
 
     /**
+     * Clear article count cache
+     */
+    public function clearArticleCount()
+    {
+        $arCacheTag = [static::class];
+        $sCacheKey = 'article_count_'.$this->id;
+
+        CCache::clear($arCacheTag, $sCacheKey);
+        ItemStorage::clear(static::class, $this->id);
+
+        $obParentItem = $this->parent;
+        if ($obParentItem->isEmpty()) {
+            return;
+        }
+
+        $obParentItem->clearArticleCount();
+    }
+
+    /**
      * Returns URL of a category page.
      *
      * @param string $sPageCode
+     * @param array  $arRemoveParamList
      *
      * @return string
      */
-    public function getPageUrl($sPageCode)
+    public function getPageUrl($sPageCode, $arRemoveParamList = [])
     {
         //Get URL params
-        $arParamList = $this->getPageParamList($sPageCode);
+        $arParamList = $this->getPageParamList($sPageCode, $arRemoveParamList);
 
         //Generate page URL
         $sURL = CmsPage::url($sPageCode, $arParamList);
@@ -65,29 +89,58 @@ class CategoryItem extends ElementItem
     /**
      * Get URL param list by page code
      * @param string $sPageCode
+     * @param array  $arRemoveParamList
      * @return array
      */
-    public function getPageParamList($sPageCode): array
+    public function getPageParamList($sPageCode, $arRemoveParamList = []) : array
     {
+        $arResult = [];
+        if (!empty($arRemoveParamList)) {
+            foreach ($arRemoveParamList as $sParamName) {
+                $arResult[$sParamName] = null;
+            }
+        }
+
+        //Get all slug params
+        $arParamList = PageHelper::instance()->getUrlParamList($sPageCode, null);
+        if (!empty($arParamList)) {
+            foreach ($arParamList as $sParamName) {
+                $arResult[$sParamName] = null;
+            }
+        }
+
         //Get URL params for page
-        $arParamList = PageHelper::instance()->getUrlParamList($sPageCode, 'ArticleCategoryPage');
+        $arParamList = PageHelper::instance()->getUrlParamList($sPageCode, 'CategoryPage');
         if (empty($arParamList)) {
             return [];
         }
 
-        $arParamList = array_reverse($arParamList);
-
         //Get slug list
         $arSlugList = $this->getSlugList();
-        $arSlugList = array_reverse($arSlugList);
 
-        //Prepare page property list
-        $arPagePropertyList = [];
-        foreach ($arParamList as $sParamName) {
-            $arPagePropertyList[$sParamName] = array_shift($arSlugList);
+        $arWildcardParamList = PageHelper::instance()->getUrlParamList($sPageCode, 'CategoryPage', 'slug', true);
+        if (!empty($arWildcardParamList)) {
+            $arSlugList = array_reverse($arSlugList);
+            $arResult[array_shift($arWildcardParamList)] = implode('/', $arSlugList);
+
+            return $arResult;
+        } elseif (count($arParamList) == 1) {
+            $sParamName = array_shift($arParamList);
+            $arResult[$sParamName] = array_shift($arSlugList);
+
+            return $arResult;
         }
 
-        return $arPagePropertyList;
+        //Prepare page property list
+        $arSlugList = array_reverse($arSlugList);
+        $arParamList = array_reverse($arParamList);
+        foreach ($arParamList as $sParamName) {
+            if (!empty($arSlugList)) {
+                $arResult[$sParamName] = array_shift($arSlugList);
+            }
+        }
+
+        return $arResult;
     }
 
     /**
@@ -124,5 +177,47 @@ class CategoryItem extends ElementItem
             ->lists('id');
 
         return $arResult;
+    }
+
+    /**
+     * Get article count for category
+     * @return int
+     */
+    protected function getArticleCountAttribute()
+    {
+        $iArticleCount = $this->getAttribute('article_count');
+        if ($iArticleCount !== null) {
+            return $iArticleCount;
+        }
+
+        //Get article count from cache
+        $arCacheTag = [static::class];
+        $sCacheKey = 'article_count_'.$this->id;
+
+        $iArticleCount = CCache::get($arCacheTag, $sCacheKey);
+        if ($iArticleCount !== null) {
+            return $iArticleCount;
+        }
+
+        //Calculate article count from child categories
+        $iArticleCount = 0;
+        $obChildCategoryCollect = $this->children;
+        if ($obChildCategoryCollect->isNotEmpty()) {
+            /** @var CategoryItem $obChildCategoryItem */
+            foreach ($obChildCategoryCollect as $obChildCategoryItem) {
+                if ($obChildCategoryItem->isEmpty()) {
+                    continue;
+                }
+
+                $iArticleCount += $obChildCategoryItem->article_count;
+            }
+        }
+
+        $iArticleCount += ArticleCollection::make()->active()->category($this->id)->count();
+
+        CCache::forever($arCacheTag, $sCacheKey, $iArticleCount);
+        $this->setAttribute('article_count', $iArticleCount);
+
+        return $iArticleCount;
     }
 }
