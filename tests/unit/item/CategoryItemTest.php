@@ -1,7 +1,10 @@
 <?php namespace Lovata\GoodNews\Tests\Unit\Item;
 
+use October\Rain\Argon\Argon;
 use Lovata\Toolbox\Tests\CommonTest;
 
+use Lovata\GoodNews\Models\Article;
+use Lovata\GoodNews\Classes\Collection\ArticleCollection;
 use Lovata\GoodNews\Models\Category;
 use Lovata\GoodNews\Classes\Item\CategoryItem;
 use Lovata\GoodNews\Classes\Collection\CategoryCollection;
@@ -21,12 +24,24 @@ class CategoryItemTest extends CommonTest
     /** @var  Category */
     protected $obChildElement;
 
+    /** @var Article */
+    protected $obArticle;
+
     protected $arCreateData = [
         'name'         => 'name',
         'slug'         => 'slug',
         'code'         => 'code',
         'preview_text' => 'preview_text',
         'description'  => 'description',
+    ];
+
+    protected $arArticleData = [
+        'status_id'       => 4,
+        'title'           => 'title',
+        'slug'            => 'slug',
+        'preview_text'    => 'preview_text',
+        'content'         => 'content',
+        'view_count'      => 0
     ];
 
     /**
@@ -126,6 +141,75 @@ class CategoryItemTest extends CommonTest
     }
 
     /**
+     * Test article_count field for main category
+     */
+    public function testArticleCountField()
+    {
+        $this->createTestData();
+        if (empty($this->obElement)) {
+            return;
+        }
+
+        $obParentItem = CategoryItem::make($this->obElement->id);
+        $obItem = CategoryItem::make($this->obChildElement->id);
+
+        self::assertEquals(1, $obParentItem->article_count);
+        self::assertEquals(1, $obItem->article_count);
+
+        //Set empty category_id in Article object
+        $this->obArticle->category_id = null;
+        $this->obArticle->save();
+
+        $obParentItem = CategoryItem::make($this->obElement->id);
+        $obItem = CategoryItem::make($this->obChildElement->id);
+
+        self::assertEquals(0, $obParentItem->article_count);
+        self::assertEquals(0, $obItem->article_count);
+
+        //Set parent category_id in Article object
+        $this->obArticle->category_id = $this->obElement->id;
+        $this->obArticle->save();
+
+        $obParentItem = CategoryItem::make($this->obElement->id);
+        $obItem = CategoryItem::make($this->obChildElement->id);
+
+        self::assertEquals(1, $obParentItem->article_count);
+        self::assertEquals(0, $obItem->article_count);
+
+        //Set child category_id in Article object
+        $this->obArticle->category_id = $this->obChildElement->id;
+        $this->obArticle->save();
+
+        $obParentItem = CategoryItem::make($this->obElement->id);
+        $obItem = CategoryItem::make($this->obChildElement->id);
+
+        self::assertEquals(1, $obParentItem->article_count);
+        self::assertEquals(1, $obItem->article_count);
+
+        //Set status_id == 1 in Article object
+        $this->obArticle->status_id = 1;
+        $this->obArticle->save();
+
+        ArticleCollection::make()->published()->save(CategoryItem::class.'_active');
+        $obParentItem = CategoryItem::make($this->obElement->id);
+        $obItem = CategoryItem::make($this->obChildElement->id);
+
+        self::assertEquals(0, $obParentItem->article_count);
+        self::assertEquals(0, $obItem->article_count);
+
+        //Set status_id == 4 in Article object
+        $this->obArticle->status_id = 4;
+        $this->obArticle->save();
+
+        ArticleCollection::make()->published()->save(CategoryItem::class.'_active');
+        $obParentItem = CategoryItem::make($this->obElement->id);
+        $obItem = CategoryItem::make($this->obChildElement->id);
+
+        self::assertEquals(1, $obParentItem->article_count);
+        self::assertEquals(1, $obItem->article_count);
+    }
+
+    /**
      * Create data for test
      */
     protected function createTestData()
@@ -145,5 +229,12 @@ class CategoryItemTest extends CommonTest
         $this->obChildElement->parent_id = $this->obElement->id;
         $this->obChildElement->nest_depth = 1;
         $this->obChildElement->save();
+
+        $arArticleData = $this->arArticleData;
+        $arArticleData['category_id'] = $this->obChildElement->id;
+
+        $arArticleData['published_start'] = Argon::today();
+
+        $this->obArticle = Article::create($arArticleData);
     }
 }

@@ -5,6 +5,7 @@ use Lovata\Toolbox\Classes\Event\ModelHandler;
 use Lovata\GoodNews\Classes\Store\ArticleListStore;
 use Lovata\GoodNews\Classes\Item\ArticleItem;
 use Lovata\GoodNews\Models\Article;
+use Lovata\GoodNews\Classes\Item\CategoryItem;
 
 /**
  * Class ArticleModelHandler
@@ -45,7 +46,10 @@ class ArticleModelHandler extends ModelHandler
             $this->clearBySortingViews();
         }
 
-        $this->checkFieldChanges('category_id', ArticleListStore::instance()->category);
+        //Check "category_id" field
+        $this->checkCategoryIDField();
+
+        $this->checkStatusField();
     }
 
     /**
@@ -81,6 +85,52 @@ class ArticleModelHandler extends ModelHandler
     {
         ArticleListStore::instance()->sorting->clear(ArticleListStore::SORT_VIEW_COUNT_ASC);
         ArticleListStore::instance()->sorting->clear(ArticleListStore::SORT_VIEW_COUNT_DESC);
+    }
+
+    /**
+     * Check article "status_id" field, if it was changed, then clear cache
+     */
+    protected function checkStatusField()
+    {
+        //check article "status_id" field
+        if (!$this->isFieldChanged('status_id')) {
+            return;
+        }
+
+        ArticleListStore::instance()->published->clear();
+
+        $this->clearCategoryArticleCount($this->obElement->category_id);
+    }
+
+    /**
+     * Check article "category_id" field, if it was changed, then clear cache
+     */
+    protected function checkCategoryIDField()
+    {
+        //Check "category_id" field
+        if (!$this->isFieldChanged('category_id')) {
+            return;
+        }
+
+        //Update article ID cache list for category
+        ArticleListStore::instance()->category->clear($this->obElement->category_id);
+        ArticleListStore::instance()->category->clear((int) $this->obElement->getOriginal('category_id'));
+
+
+        $this->clearCategoryArticleCount($this->obElement->category_id);
+        $this->clearCategoryArticleCount((int) $this->obElement->getOriginal('category_id'));
+    }
+
+    /**
+     * Clear article count cache in category item
+     * @param int $iCategoryID
+     */
+    protected function clearCategoryArticleCount($iCategoryID)
+    {
+        $obCategoryItem = CategoryItem::make($iCategoryID);
+        if ($obCategoryItem->isNotEmpty()) {
+            $obCategoryItem->clearArticleCount();
+        }
     }
 
     /**
