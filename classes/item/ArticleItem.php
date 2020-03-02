@@ -1,6 +1,4 @@
-<?php
-
-namespace Lovata\GoodNews\Classes\Item;
+<?php namespace Lovata\GoodNews\Classes\Item;
 
 use Cms\Classes\Page as CmsPage;
 
@@ -41,15 +39,6 @@ class ArticleItem extends ElementItem
     ];
 
     /**
-     * Check element, active == true, trashed == false
-     * @return bool
-     */
-    public function isActive()
-    {
-        return $this->active && !$this->trashed;
-    }
-
-    /**
      * Returns URL of a category page.
      *
      * @param string $sPageCode
@@ -86,7 +75,6 @@ class ArticleItem extends ElementItem
 
         //Get URL params for categories
         $aCategoryParamList = $this->category->getPageParamList($sPageCode);
-        $aBrandParamList = $this->brand->getPageParamList($sPageCode);
 
         //Get URL params for page
         $arParamList = (array) PageHelper::instance()->getUrlParamList($sPageCode, 'ArticlePage');
@@ -95,7 +83,7 @@ class ArticleItem extends ElementItem
             $arPageParamList[$sPageParam] = $this->slug;
         }
 
-        $arResult = array_merge($arResult, $aCategoryParamList, $aBrandParamList, $arPageParamList);
+        $arResult = array_merge($arResult, $aCategoryParamList, $arPageParamList);
 
         return $arResult;
     }

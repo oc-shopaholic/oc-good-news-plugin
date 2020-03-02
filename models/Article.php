@@ -1,6 +1,4 @@
-<?php
-
-namespace Lovata\GoodNews\Models;
+<?php namespace Lovata\GoodNews\Models;
 
 use Lang;
 use Model;
