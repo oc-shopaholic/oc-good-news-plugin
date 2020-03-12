@@ -197,8 +197,31 @@ class CategoryItemTest extends CommonTest
         self::assertEquals(0, $obParentItem->article_count);
         self::assertEquals(0, $obItem->article_count);
 
+
         //Set status_id == 4 in Article object
         $this->obArticle->status_id = 4;
+        $this->obArticle->save();
+
+        ArticleCollection::make()->published()->save(CategoryItem::class.'_published');
+        $obParentItem = CategoryItem::make($this->obElement->id);
+        $obItem = CategoryItem::make($this->obChildElement->id);
+
+        self::assertEquals(1, $obParentItem->article_count);
+        self::assertEquals(1, $obItem->article_count);
+
+        //Set published_start == tomorrow Article object
+        $this->obArticle->published_start = Argon::tomorrow();
+        $this->obArticle->save();
+
+        ArticleCollection::make()->published()->save(CategoryItem::class.'_published');
+        $obParentItem = CategoryItem::make($this->obElement->id);
+        $obItem = CategoryItem::make($this->obChildElement->id);
+
+        self::assertEquals(0, $obParentItem->article_count);
+        self::assertEquals(0, $obItem->article_count);
+
+        //Set published_start == today Article object
+        $this->obArticle->published_start = Argon::today();
         $this->obArticle->save();
 
         ArticleCollection::make()->published()->save(CategoryItem::class.'_published');
