@@ -40,6 +40,8 @@ class ArticleModelHandler extends ModelHandler
 
         if ($this->isFieldChanged('published_start')) {
             $this->clearBySortingPublished();
+            $this->clearCategoryArticleCount($this->obElement->category_id);
+            $this->clearCategoryArticleCount((int) $this->obElement->getOriginal('category_id'));
         }
 
         if ($this->isFieldChanged('view_count')) {
