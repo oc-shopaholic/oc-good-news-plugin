@@ -67,6 +67,9 @@ class ArticleModelHandler extends ModelHandler
         $this->clearBySortingViews();
 
         ArticleListStore::instance()->category->clear($this->obElement->category_id);
+
+        $this->clearCategoryArticleCount($this->obElement->category_id);
+        $this->clearCategoryArticleCount((int) $this->obElement->getOriginal('category_id'));
     }
 
     /**
