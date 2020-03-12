@@ -207,6 +207,16 @@ class CategoryItemTest extends CommonTest
 
         self::assertEquals(1, $obParentItem->article_count);
         self::assertEquals(1, $obItem->article_count);
+
+        //Delete Article object
+        $this->obArticle->delete();
+
+        ArticleCollection::make()->published()->save(CategoryItem::class.'_published');
+        $obParentItem = CategoryItem::make($this->obElement->id);
+        $obItem = CategoryItem::make($this->obChildElement->id);
+
+        self::assertEquals(0, $obParentItem->article_count);
+        self::assertEquals(0, $obItem->article_count);
     }
 
     /**
