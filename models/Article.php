@@ -11,6 +11,7 @@ use Kharanenka\Scope\DateField;
 use Kharanenka\Scope\SlugField;
 
 use Lovata\Toolbox\Traits\Helpers\TraitCached;
+use October\Rain\Database\Traits\SoftDelete;
 
 /**
  * Class Article
@@ -53,6 +54,7 @@ class Article extends Model
     use SlugField;
     use CategoryBelongsTo;
     use TraitCached;
+    use SoftDelete;
 
     const STATUS_NEW = 1;
     const STATUS_IN_WORK = 2;
@@ -76,7 +78,7 @@ class Article extends Model
         'published_start' => 'lovata.goodnews::lang.field.published_start',
     ];
 
-    public $dates = ['created_at', 'updated_at', 'published_start', 'published_stop'];
+    public $dates = ['created_at', 'updated_at', 'published_start', 'published_stop', 'deleted_at'];
 
     public $belongsToMany = [];
     public $belongsTo = [
@@ -173,9 +175,9 @@ class Article extends Model
     public function getStatusIdOptions()
     {
         return [
-            self::STATUS_NEW       => Lang::get('lovata.goodnews::lang.status.'.self::STATUS_NEW),
-            self::STATUS_IN_WORK   => Lang::get('lovata.goodnews::lang.status.'.self::STATUS_IN_WORK),
-            self::STATUS_PUBLISHED => Lang::get('lovata.goodnews::lang.status.'.self::STATUS_PUBLISHED),
+            self::STATUS_NEW       => Lang::get('lovata.goodnews::lang.status.' . self::STATUS_NEW),
+            self::STATUS_IN_WORK   => Lang::get('lovata.goodnews::lang.status.' . self::STATUS_IN_WORK),
+            self::STATUS_PUBLISHED => Lang::get('lovata.goodnews::lang.status.' . self::STATUS_PUBLISHED),
         ];
     }
 }
