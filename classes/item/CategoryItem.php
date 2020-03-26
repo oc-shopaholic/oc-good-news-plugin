@@ -20,6 +20,7 @@ use Lovata\GoodNews\Classes\Collection\CategoryCollection;
  * @property string                            $name
  * @property string                            $slug
  * @property string                            $code
+ * @property int                               $article_count
  * @property int                               $nest_depth
  * @property int                               $parent_id
  * @property string                            $preview_text
