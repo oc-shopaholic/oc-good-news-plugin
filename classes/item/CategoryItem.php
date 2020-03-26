@@ -213,7 +213,7 @@ class CategoryItem extends ElementItem
             }
         }
 
-        $iArticleCount += ArticleCollection::make()->active()->category($this->id)->count();
+        $iArticleCount += ArticleCollection::make()->published()->category($this->id)->count();
 
         CCache::forever($arCacheTag, $sCacheKey, $iArticleCount);
         $this->setAttribute('article_count', $iArticleCount);
