@@ -12,6 +12,8 @@ use Lovata\GoodNews\Classes\Item\ArticleItem;
  */
 class ArticlePage extends ElementPage
 {
+    protected $bNeedSmartURLCheck = true;
+
     /** @var Article */
     protected $obElement;
 
