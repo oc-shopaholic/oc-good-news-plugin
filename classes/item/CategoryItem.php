@@ -111,7 +111,7 @@ class CategoryItem extends ElementItem
         }
 
         //Get URL params for page
-        $arParamList = PageHelper::instance()->getUrlParamList($sPageCode, 'CategoryPage');
+        $arParamList = PageHelper::instance()->getUrlParamList($sPageCode, 'ArticleCategoryPage');
         if (empty($arParamList)) {
             return [];
         }
@@ -119,7 +119,7 @@ class CategoryItem extends ElementItem
         //Get slug list
         $arSlugList = $this->getSlugList();
 
-        $arWildcardParamList = PageHelper::instance()->getUrlParamList($sPageCode, 'CategoryPage', 'slug', true);
+        $arWildcardParamList = PageHelper::instance()->getUrlParamList($sPageCode, 'ArticleCategoryPage', 'slug', true);
         if (!empty($arWildcardParamList)) {
             $arSlugList = array_reverse($arSlugList);
             $arResult[array_shift($arWildcardParamList)] = implode('/', $arSlugList);
