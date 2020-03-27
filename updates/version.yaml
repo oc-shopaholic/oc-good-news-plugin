@@ -9,3 +9,5 @@
     - update_table_articles_add_soft_deletes.php
 1.3.0:
     - 'Added article_count attribute to CategoryItem class. Thanks for contribution Dinwid.'
+1.3.1:
+    - 'Fixed logic in CategoryItem::getPageUrl() method. Thanks for contribution Dinwid.'
