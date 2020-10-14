@@ -5,10 +5,10 @@ use October\Rain\Database\Schema\Blueprint;
 use October\Rain\Database\Updates\Migration;
 
 /**
- * Class UpdateTableArticlesAddSoftDeletes
+ * Class UpdateTableArticlesAddCodeField
  * @package Lovata\GoodNews\Updates
  */
-class UpdateTableArticlesAddSoftDeletes extends Migration
+class UpdateTableArticlesAddCodeField extends Migration
 {
     /**
      * Apply migration
@@ -17,8 +17,9 @@ class UpdateTableArticlesAddSoftDeletes extends Migration
     {
         if (Schema::hasTable('lovata_good_news_articles')) {
 
-            Schema::table('lovata_good_news_articles', function (Blueprint $table) {
-                $table->softDeletes();
+            Schema::table('lovata_good_news_articles', function (Blueprint $obTable) {
+                $obTable->string('code')->nullable();
+                $obTable->index('code');
             });
         }
     }
@@ -29,8 +30,8 @@ class UpdateTableArticlesAddSoftDeletes extends Migration
     public function down()
     {
         if (Schema::hasTable('lovata_good_news_articles')) {
-            Schema::table('lovata_good_news_articles', function (Blueprint $table) {
-                $table->dropSoftDeletes();
+            Schema::table('lovata_good_news_articles', function (Blueprint $obTable) {
+                $obTable->dropColumn(['code']);
             });
         }
     }

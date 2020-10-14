@@ -44,6 +44,11 @@ tabs:
             mode: datetime
             span: left
             type: datepicker
+        code:
+            label: 'lovata.toolbox::lang.field.code'
+            span: left
+            type: text
+            tab: 'lovata.toolbox::lang.tab.settings'
         preview_text:
             label: 'lovata.toolbox::lang.field.preview_text'
             size: large

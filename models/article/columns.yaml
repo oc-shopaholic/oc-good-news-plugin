@@ -12,6 +12,11 @@ columns:
     status_id:
         label: 'lovata.goodnews::lang.field.status'
         type: partial
+    code:
+        label: 'lovata.toolbox::lang.field.code'
+        type: text
+        searchable: true
+        sortable: true
     published_start:
         label: 'lovata.goodnews::lang.field.published_start'
         type: datetime

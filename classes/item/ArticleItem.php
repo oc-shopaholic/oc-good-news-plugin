@@ -17,6 +17,7 @@ use Lovata\GoodNews\Models\Article;
  * @property integer                   $view_count
  * @property string                    $title
  * @property string                    $slug
+ * @property string                    $code
  * @property string                    $preview_text
  * @property string                    $content
  * @property CategoryItem              $category
