@@ -24,6 +24,12 @@ navigation:
                 icon: icon-sitemap
                 permissions:
                     - 'good-news-menu-category'
+            side-menu-goodnews-property:
+                label: 'lovata.goodnews::lang.menu.property'
+                url: lovata/goodnews/properties
+                icon: icon-sitemap
+                permissions:
+                    - 'good-news-menu-property'
 permissions:
     good-news-menu-article:
         tab: 'lovata.goodnews::lang.tab.permissions'
@@ -32,4 +38,8 @@ permissions:
     good-news-menu-category:
         tab: 'lovata.goodnews::lang.tab.permissions'
         label: 'lovata.goodnews::lang.permission.category'
+        order: 100
+    good-news-menu-property:
+        tab: 'lovata.goodnews::lang.tab.permissions'
+        label: 'lovata.goodnews::lang.permission.property'
         order: 100

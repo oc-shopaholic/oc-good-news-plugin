@@ -1,0 +1,16 @@
+name: 'lovata.goodnews::lang.property.name'
+modelClass: Lovata\GoodNews\Models\Property
+form: $/lovata/goodnews/models/property/fields.yaml
+defaultRedirect: lovata/goodnews/properties
+create:
+    title: 'backend::lang.form.create_title'
+    redirect: 'lovata/goodnews/properties/update/:id'
+    redirectClose: lovata/goodnews/properties
+    flashSave: 'lovata.toolbox::lang.message.create_success'
+update:
+    title: 'backend::lang.form.update_title'
+    redirect: lovata/goodnews/properties
+    redirectClose: lovata/goodnews/properties
+    flashSave: 'lovata.toolbox::lang.message.update_success'
+    flashDelete: 'lovata.toolbox::lang.message.delete_success'
+preview: {  }
