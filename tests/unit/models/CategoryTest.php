@@ -1,6 +1,5 @@
 <?php namespace Lovata\GoodNews\Tests\Unit\Models;
 
-include_once __DIR__.'/../../../../toolbox/vendor/autoload.php';
 include_once __DIR__.'/../../../../../../tests/PluginTestCase.php';
 
 use PluginTestCase;
