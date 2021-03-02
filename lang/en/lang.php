@@ -23,7 +23,7 @@
         'category_data_desc'   => '',
         'category_list'        => 'Category list',
         'category_list_desc'   => '',
-        
+
         'sorting_publish_asc'     => 'By date of publication (asc)',
         'sorting_publish_desc'    => 'By date of publication (desc)',
         'sorting_view_count_acs'  => 'By view count (asc)',
@@ -32,6 +32,7 @@
     'menu'      => [
         'article'  => 'Articles',
         'category' => 'Categories',
+        'property' => 'Addition properties',
     ],
     'tab'       => [
         'permissions' => 'Manage article',
@@ -44,6 +45,10 @@
         'name'       => 'category',
         'list_title' => 'Category list',
     ],
+    'property' => [
+        'name'       => 'property',
+        'list_title' => 'Property list',
+    ],
     'status' => [
         1 => 'New',
         2 => 'In progress',
@@ -53,5 +58,6 @@
     'permission' => [
         'article'  => 'Manage article',
         'category' => 'Manage category',
+        'property' => 'Manage addition properties',
     ],
 ];

@@ -30,6 +30,7 @@ use October\Rain\Database\Traits\SoftDelete;
  * @property integer                                                 $view_count
  * @property string                                                  $preview_text
  * @property string                                                  $content
+ * @property array                                                   $property
  * @property \October\Rain\Argon\Argon                               $published_start
  * @property \October\Rain\Argon\Argon                               $published_stop
  * @property \October\Rain\Argon\Argon                               $created_at
@@ -86,6 +87,7 @@ class Article extends Model
             Category::class,
         ],
     ];
+    public $jsonable = ['property'];
 
     public $attachOne = [
         'preview_image' => 'System\Models\File'
@@ -105,6 +107,7 @@ class Article extends Model
         'published_start',
         'published_stop',
         'view_count',
+        'property',
     ];
 
     public $cached = [
@@ -120,6 +123,7 @@ class Article extends Model
         'view_count',
         'preview_image',
         'images',
+        'property',
     ];
 
     /**

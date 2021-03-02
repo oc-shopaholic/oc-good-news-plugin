@@ -19,6 +19,7 @@ use Lovata\GoodNews\Models\Article;
  * @property string                    $slug
  * @property string                    $preview_text
  * @property string                    $content
+ * @property array                     $property
  * @property CategoryItem              $category
  * @property \October\Rain\Argon\Argon $published_start
  * @property \October\Rain\Argon\Argon $published_stop
