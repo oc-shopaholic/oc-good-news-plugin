@@ -26,6 +26,7 @@ use October\Rain\Database\Traits\SoftDelete;
  * @property int                                                     $status_id
  * @property string                                                  $title
  * @property string                                                  $slug
+ * @property string                                                  $code
  * @property integer                                                 $category_id
  * @property integer                                                 $view_count
  * @property string                                                  $preview_text
@@ -100,6 +101,7 @@ class Article extends Model
         'category_id',
         'title',
         'slug',
+        'code',
         'preview_text',
         'content',
         'published_start',
@@ -113,6 +115,7 @@ class Article extends Model
         'category_id',
         'title',
         'slug',
+        'code',
         'preview_text',
         'content',
         'published_start',
