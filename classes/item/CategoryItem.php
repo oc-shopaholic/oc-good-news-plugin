@@ -35,6 +35,11 @@ class CategoryItem extends ElementItem
 {
     const MODEL_CLASS = Category::class;
 
+    public static $arQueryWith = [
+        'preview_image',
+        'images',
+    ];
+
     /** @var Category */
     protected $obElement;
 

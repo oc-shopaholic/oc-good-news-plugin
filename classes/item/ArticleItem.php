@@ -31,6 +31,11 @@ class ArticleItem extends ElementItem
 {
     const MODEL_CLASS = Article::class;
 
+    public static $arQueryWith = [
+        'preview_image',
+        'images',
+    ];
+
     public $arRelationList = [
         'category' => [
             'class' => CategoryItem::class,
@@ -86,13 +91,5 @@ class ArticleItem extends ElementItem
         $arResult = array_merge($arResult, $aCategoryParamList, $arPageParamList);
 
         return $arResult;
-    }
-
-    /**
-     * Set element object
-     */
-    protected function setElementObject()
-    {
-        $this->obElement = Article::withTrashed()->find($this->iElementID);
     }
 }
