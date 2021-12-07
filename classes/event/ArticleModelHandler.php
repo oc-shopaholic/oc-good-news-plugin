@@ -1,5 +1,6 @@
 <?php namespace Lovata\GoodNews\Classes\Event;
 
+use Lovata\Toolbox\Models\Settings;
 use Lovata\Toolbox\Classes\Event\ModelHandler;
 
 use Lovata\GoodNews\Classes\Store\ArticleListStore;
@@ -16,6 +17,19 @@ class ArticleModelHandler extends ModelHandler
 {
     /** @var  Article */
     protected $obElement;
+
+    public function subscribe($obEvent)
+    {
+        parent::subscribe($obEvent);
+
+        Article::extend(function ($obModel) {
+            /** @var Article $obModel */
+            $bSlugIsTranslatable = Settings::getValue('slug_is_translatable');
+            if ($bSlugIsTranslatable) {
+                $obModel->translatable[] = ['slug', 'index' => true];
+            }
+        });
+    }
 
     /**
      * After create event handler
