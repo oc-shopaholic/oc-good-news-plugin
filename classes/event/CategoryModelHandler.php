@@ -1,5 +1,6 @@
 <?php namespace Lovata\GoodNews\Classes\Event;
 
+use Lovata\Toolbox\Models\Settings;
 use Lovata\Toolbox\Classes\Event\ModelHandler;
 
 use Lovata\GoodNews\Models\Category;
@@ -15,6 +16,19 @@ class CategoryModelHandler extends ModelHandler
 {
     /** @var  Category */
     protected $obElement;
+
+    public function subscribe($obEvent)
+    {
+        parent::subscribe($obEvent);
+
+        Category::extend(function ($obModel) {
+            /** @var Category $obModel */
+            $bSlugIsTranslatable = Settings::getValue('slug_is_translatable');
+            if ($bSlugIsTranslatable) {
+                $obModel->translatable[] = ['slug', 'index' => true];
+            }
+        });
+    }
 
     /**
      * Add listeners
