@@ -17,6 +17,10 @@ class CategoryModelHandler extends ModelHandler
     /** @var  Category */
     protected $obElement;
 
+    /**
+     * Add listeners
+     * @param \Illuminate\Events\Dispatcher $obEvent
+     */
     public function subscribe($obEvent)
     {
         parent::subscribe($obEvent);
@@ -28,15 +32,6 @@ class CategoryModelHandler extends ModelHandler
                 $obModel->translatable[] = ['slug', 'index' => true];
             }
         });
-    }
-
-    /**
-     * Add listeners
-     * @param \Illuminate\Events\Dispatcher $obEvent
-     */
-    public function subscribe($obEvent)
-    {
-        parent::subscribe($obEvent);
 
         $obEvent->listen('good_news.category.update.sorting', function () {
             CategoryListStore::instance()->top_level->clear();
