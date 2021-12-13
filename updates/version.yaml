@@ -17,3 +17,5 @@
     - 'Reduced count of database queries, if cache is empty. Requires Toolbox plugin version 1.32.0 and later.'
 1.6.0:
     - 'Added translatable URL to Article and Category models. Thanks for contribution Sergei Toroptsev.'
+1.6.1:
+    - 'Small fix in CategoryModelHandler class'
