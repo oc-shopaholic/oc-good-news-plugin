@@ -27,6 +27,11 @@ class CategoryCollectionTest extends CommonTest
         'code'         => 'code',
         'preview_text' => 'preview_text',
         'description'  => 'description',
+        'metadata'     => [
+            'meta_title'       => 'meta_title',
+            'meta_keywords'    => 'meta_keywords',
+            'meta_description' => 'meta_description',
+        ],
     ];
 
     /**

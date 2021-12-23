@@ -4,10 +4,13 @@
         'description' => 'Новостной плагин',
     ],
     'field'     => [
-        'content'         => 'Контент новости',
-        'published_start' => 'Дата начала публикации',
-        'published_stop'  => 'Дата окончания публикации',
-        'status'          => 'Статус',
+        'content'          => 'Контент новости',
+        'published_start'  => 'Дата начала публикации',
+        'published_stop'   => 'Дата окончания публикации',
+        'status'           => 'Статус',
+        'meta_title'       => 'Заголовок (meta title)',
+        'meta_keywords'    => 'Ключевые слова (meta keywords)',
+        'meta_description' => 'Описание (meta description)',
     ],
     'component' => [
         'article_page'         => 'Страница новости',
@@ -23,7 +26,7 @@
         'category_data_desc'   => '',
         'category_list'        => 'Список категорий',
         'category_list_desc'   => '',
-        
+
         'sorting_publish_asc'     => 'По дате публикации (asc)',
         'sorting_publish_desc'    => 'По дате публикации (desc)',
         'sorting_view_count_acs'  => 'По количеству просмотров (asc)',
@@ -35,6 +38,7 @@
     ],
     'tab'       => [
         'permissions' => 'Управление блонком новостей',
+        'meta'        => 'Метатеги',
     ],
     'article'   => [
         'name'       => 'новости',

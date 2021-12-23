@@ -27,6 +27,7 @@ use Kharanenka\Scope\CodeField;
  * @property string                                                  $code
  * @property string                                                  $preview_text
  * @property string                                                  $description
+ * @property array                                                   $metadata
  * @property int                                                     $parent_id
  * @property int                                                     $nest_left
  * @property int                                                     $nest_right
@@ -57,7 +58,15 @@ class Category extends Model
     /** @var array */
     public $implement = ['@RainLab.Translate.Behaviors.TranslatableModel'];
     /** @var array */
-    public $translatable = ['name', 'preview_text', 'description'];
+    public $translatable = [
+        'name',
+        'preview_text',
+        'description',
+        'metadata[meta_title]',
+        'metadata[meta_keywords]',
+        'metadata[meta_description]',
+    ];
+
     public $rules = [
         'name' => 'required',
         'slug' => 'required|unique:lovata_good_news_categories',
@@ -90,6 +99,7 @@ class Category extends Model
         'code',
         'preview_text',
         'description',
+        'metadata',
     ];
 
     public $cached = [
@@ -100,9 +110,12 @@ class Category extends Model
         'code',
         'preview_text',
         'description',
+        'metadata',
         'nest_depth',
         'parent_id',
         'preview_image',
         'images',
     ];
+
+    public $jsonable = ['metadata'];
 }

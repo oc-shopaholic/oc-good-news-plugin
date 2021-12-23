@@ -33,6 +33,11 @@ class CategoryItemTest extends CommonTest
         'code'         => 'code',
         'preview_text' => 'preview_text',
         'description'  => 'description',
+        'metadata'     => [
+            'meta_title'       => 'meta_title',
+            'meta_keywords'    => 'meta_keywords',
+            'meta_description' => 'meta_description',
+        ],
     ];
 
     protected $arArticleData = [
@@ -41,7 +46,12 @@ class CategoryItemTest extends CommonTest
         'slug'            => 'slug',
         'preview_text'    => 'preview_text',
         'content'         => 'content',
-        'view_count'      => 0
+        'view_count'      => 0,
+        'metadata'     => [
+            'meta_title'       => 'meta_title',
+            'meta_keywords'    => 'meta_keywords',
+            'meta_description' => 'meta_description',
+        ],
     ];
 
     /**

@@ -19,3 +19,7 @@
     - 'Added translatable URL to Article and Category models. Thanks for contribution Sergei Toroptsev.'
 1.6.1:
     - 'Small fix in CategoryModelHandler class'
+1.7.0:
+    - 'Added SEO meta fields to Article and Category models'
+    - update_table_articles_add_metadata_field.php
+    - update_table_categories_add_metadata_field.php
