@@ -28,11 +28,14 @@ class CategoryItemTest extends CommonTest
     protected $obArticle;
 
     protected $arCreateData = [
-        'name'         => 'name',
-        'slug'         => 'slug',
-        'code'         => 'code',
-        'preview_text' => 'preview_text',
-        'description'  => 'description',
+        'name'            => 'name',
+        'slug'            => 'slug',
+        'code'            => 'code',
+        'preview_text'    => 'preview_text',
+        'description'     => 'description',
+        'seo_title'       => 'seo_title',
+        'seo_keywords'    => 'seo_keywords',
+        'seo_description' => 'seo_description',
     ];
 
     protected $arArticleData = [
@@ -41,6 +44,9 @@ class CategoryItemTest extends CommonTest
         'slug'            => 'slug',
         'preview_text'    => 'preview_text',
         'content'         => 'content',
+        'seo_title'       => 'seo_title',
+        'seo_keywords'    => 'seo_keywords',
+        'seo_description' => 'seo_description',
         'view_count'      => 0
     ];
 

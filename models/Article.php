@@ -30,6 +30,9 @@ use October\Rain\Database\Traits\SoftDelete;
  * @property integer                                                 $view_count
  * @property string                                                  $preview_text
  * @property string                                                  $content
+ * @property string                                                  $seo_title
+ * @property string                                                  $seo_keywords
+ * @property string                                                  $seo_description
  * @property \October\Rain\Argon\Argon                               $published_start
  * @property \October\Rain\Argon\Argon                               $published_stop
  * @property \October\Rain\Argon\Argon                               $created_at
@@ -65,7 +68,15 @@ class Article extends Model
     /** @var array */
     public $implement = ['@RainLab.Translate.Behaviors.TranslatableModel'];
     /** @var array */
-    public $translatable = ['title', 'preview_text', 'content'];
+    public $translatable = [
+        'title',
+        'preview_text',
+        'content',
+        'seo_title',
+        'seo_keywords',
+        'seo_description',
+    ];
+
     public $rules = [
         'title'           => 'required',
         'published_start' => 'required',
@@ -102,6 +113,9 @@ class Article extends Model
         'slug',
         'preview_text',
         'content',
+        'seo_title',
+        'seo_keywords',
+        'seo_description',
         'published_start',
         'published_stop',
         'view_count',
@@ -115,6 +129,9 @@ class Article extends Model
         'slug',
         'preview_text',
         'content',
+        'seo_title',
+        'seo_keywords',
+        'seo_description',
         'published_start',
         'published_stop',
         'view_count',

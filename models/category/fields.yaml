@@ -19,12 +19,6 @@ fields:
         type: text
 tabs:
     fields:
-        code:
-            label: 'lovata.toolbox::lang.field.code'
-            oc.commentPosition: ''
-            span: left
-            type: text
-            tab: 'lovata.toolbox::lang.tab.settings'
         preview_text:
             label: 'lovata.toolbox::lang.field.preview_text'
             size: large
@@ -60,3 +54,29 @@ tabs:
             span: left
             type: fileupload
             tab: 'lovata.toolbox::lang.tab.images'
+        seo_title:
+            label: 'lovata.goodnews::lang.field.seo_title'
+            oc.commentPosition: ''
+            span: full
+            type: text
+            tab: 'lovata.goodnews::lang.tab.meta'
+        seo_keywords:
+            label: 'lovata.goodnews::lang.field.seo_keywords'
+            size: small
+            oc.commentPosition: ''
+            span: full
+            type: textarea
+            tab: 'lovata.goodnews::lang.tab.meta'
+        seo_description:
+            label: 'lovata.goodnews::lang.field.seo_description'
+            size: large
+            oc.commentPosition: ''
+            span: full
+            type: textarea
+            tab: 'lovata.goodnews::lang.tab.meta'
+        code:
+            label: 'lovata.toolbox::lang.field.code'
+            oc.commentPosition: ''
+            span: left
+            type: text
+            tab: 'lovata.toolbox::lang.tab.settings'

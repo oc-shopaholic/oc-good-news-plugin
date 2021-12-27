@@ -26,6 +26,9 @@ use Lovata\GoodNews\Classes\Collection\CategoryCollection;
  * @property string                            $preview_text
  * @property array                             $preview_image
  * @property string                            $description
+ * @property string                            $seo_title
+ * @property string                            $seo_keywords
+ * @property string                            $seo_description
  * @property array                             $images
  * @property CategoryItem                      $parent
  * @property array                             $children_id_list
