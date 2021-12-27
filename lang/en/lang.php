@@ -8,6 +8,9 @@
         'published_start' => 'Start date of publication',
         'published_stop'  => 'Stop date of publication',
         'status'          => 'Status',
+        'seo_title'       => 'Meta title',
+        'seo_keywords'    => 'Meta keywords',
+        'seo_description' => 'Meta description',
     ],
     'component' => [
         'article_page'         => 'Article page',
@@ -23,7 +26,7 @@
         'category_data_desc'   => '',
         'category_list'        => 'Category list',
         'category_list_desc'   => '',
-        
+
         'sorting_publish_asc'     => 'By date of publication (asc)',
         'sorting_publish_desc'    => 'By date of publication (desc)',
         'sorting_view_count_acs'  => 'By view count (asc)',
@@ -35,6 +38,7 @@
     ],
     'tab'       => [
         'permissions' => 'Manage article',
+        'meta'        => 'Meta',
     ],
     'article'   => [
         'name'       => 'article',

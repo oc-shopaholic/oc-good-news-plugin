@@ -22,11 +22,14 @@ class CategoryCollectionTest extends CommonTest
     protected $obChildElement;
 
     protected $arCreateData = [
-        'name'         => 'name',
-        'slug'         => 'slug',
-        'code'         => 'code',
-        'preview_text' => 'preview_text',
-        'description'  => 'description',
+        'name'            => 'name',
+        'slug'            => 'slug',
+        'code'            => 'code',
+        'preview_text'    => 'preview_text',
+        'description'     => 'description',
+        'seo_title'       => 'seo_title',
+        'seo_keywords'    => 'seo_keywords',
+        'seo_description' => 'seo_description',
     ];
 
     /**
