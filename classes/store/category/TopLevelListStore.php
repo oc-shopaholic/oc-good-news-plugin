@@ -22,7 +22,7 @@ class TopLevelListStore extends AbstractStoreWithoutParam
         $arElementIDList = (array) Category::active()
             ->where('nest_depth', 0)
             ->orderBy('nest_left', 'asc')
-            ->lists('id');
+            ->pluck('id')->all();
 
         return $arElementIDList;
     }
