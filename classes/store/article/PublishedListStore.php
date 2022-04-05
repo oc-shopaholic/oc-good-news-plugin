@@ -28,7 +28,7 @@ class PublishedListStore extends AbstractStoreWithoutParam
     {
         $arElementIDList = (array) Article::getPublished()
             ->getByStatus(Article::STATUS_PUBLISHED)
-            ->lists('id');
+            ->pluck('id')->all();
 
         return $arElementIDList;
     }

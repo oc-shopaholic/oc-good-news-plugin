@@ -51,7 +51,7 @@ class SortingListStore extends AbstractStoreWithParam
      */
     protected function getArticleList() : array
     {
-        $arElementIDList = (array) Article::lists('id');
+        $arElementIDList = (array) Article::pluck('id')->all();
 
         return $arElementIDList;
     }
@@ -62,7 +62,7 @@ class SortingListStore extends AbstractStoreWithParam
      */
     protected function getByPublishASC() : array
     {
-        $arElementIDList = (array) Article::orderBy('published_start', 'asc')->lists('id');
+        $arElementIDList = (array) Article::orderBy('published_start', 'asc')->pluck('id')->all();
 
         return $arElementIDList;
     }
@@ -73,7 +73,7 @@ class SortingListStore extends AbstractStoreWithParam
      */
     protected function getByPublishDESC() : array
     {
-        $arElementIDList = (array) Article::orderBy('published_start', 'desc')->lists('id');
+        $arElementIDList = (array) Article::orderBy('published_start', 'desc')->pluck('id')->all();
 
         return $arElementIDList;
     }
@@ -84,7 +84,7 @@ class SortingListStore extends AbstractStoreWithParam
      */
     protected function getByViewsASC() : array
     {
-        $arElementIDList = (array) Article::orderBy('view_count', 'asc')->lists('id');
+        $arElementIDList = (array) Article::orderBy('view_count', 'asc')->pluck('id')->all();
 
         return $arElementIDList;
     }
@@ -95,7 +95,7 @@ class SortingListStore extends AbstractStoreWithParam
      */
     protected function getByViewsDESC() : array
     {
-        $arElementIDList = (array) Article::orderBy('view_count', 'desc')->lists('id');
+        $arElementIDList = (array) Article::orderBy('view_count', 'desc')->pluck('id')->all();
 
         return $arElementIDList;
     }
