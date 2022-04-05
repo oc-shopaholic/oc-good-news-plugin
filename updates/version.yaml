@@ -23,3 +23,5 @@
     - 'Added SEO meta fields to Article and Category models'
     - update_table_articles_add_seo_fields.php
     - update_table_categories_add_seo_fields.php
+1.7.1:
+    - 'Change lists method to pluck method. Thanks for contribution Nick Khaetsky.'
