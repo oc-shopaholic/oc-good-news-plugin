@@ -93,6 +93,24 @@ class CategoryModelHandler extends ModelHandler
         if ($this->obElement->active) {
             CategoryListStore::instance()->active->clear();
         }
+
+        $this->clearCachedListBySite();
+    }
+
+    /**
+     * Clear filtered articles by site ID
+     */
+    protected function clearCachedListBySite()
+    {
+        /** @var \October\Rain\Database\Collection $obSiteList */
+        $obSiteList = Site::listEnabled();
+        if (empty($obSiteList) || $obSiteList->isEmpty()) {
+            return;
+        }
+
+        foreach ($obSiteList as $obSite) {
+            CategoryListStore::instance()->site->clear($obSite->id);
+        }
     }
 
     /**

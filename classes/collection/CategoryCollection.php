@@ -37,6 +37,10 @@ class CategoryCollection extends ElementCollection
         return $this->intersect($arResultIDList);
     }
 
+    /**
+     * Apply filter by relation with site field
+     * @return $this
+     */
     public function site($iSiteID = null): self
     {
         $iSiteID = empty($iSiteID) ? Site::getSiteIdFromContext() : $iSiteID;
