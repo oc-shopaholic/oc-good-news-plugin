@@ -5,6 +5,7 @@ use Lovata\Toolbox\Classes\Store\AbstractListStore;
 use Lovata\GoodNews\Classes\Store\Article\PublishedListStore;
 use Lovata\GoodNews\Classes\Store\Article\SortingListStore;
 use Lovata\GoodNews\Classes\Store\Article\ListByCategoryStore;
+use Lovata\GoodNews\Classes\Store\Article\ListBySiteStore;
 
 /**
  * Class ArticleListStore
@@ -13,6 +14,7 @@ use Lovata\GoodNews\Classes\Store\Article\ListByCategoryStore;
  * @property PublishedListStore  $published
  * @property SortingListStore    $sorting
  * @property ListByCategoryStore $category
+ * @property ListBySiteStore     $site
  */
 class ArticleListStore extends AbstractListStore
 {
@@ -32,5 +34,6 @@ class ArticleListStore extends AbstractListStore
         $this->addToStoreList('category', ListByCategoryStore::class);
         $this->addToStoreList('sorting', SortingListStore::class);
         $this->addToStoreList('published', PublishedListStore::class);
+        $this->addToStoreList('site', ListBySiteStore::class);
     }
 }

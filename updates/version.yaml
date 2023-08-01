@@ -25,3 +25,7 @@
     - update_table_categories_add_seo_fields.php
 1.7.1:
     - 'Change lists method to pluck method. Thanks for contribution Nick Khaetsky.'
+1.8.0:
+    - 'Added the ability to link articles and categories to different sites. Added site() method to CategoryCollection, ArticleCollection classes.'
+    - create_table_article_site_relation.php
+    - create_table_category_site_relation.php

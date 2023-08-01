@@ -85,6 +85,13 @@ tabs:
             span: left
             type: relation
             emptyOption: 'lovata.toolbox::lang.field.empty'
+        site_list:
+            label: 'lovata.toolbox::lang.field.site_list'
+            span: left
+            type: checkboxlist
+            quickselect: true
+            tab: 'lovata.toolbox::lang.tab.settings'
+            context: [update, preview]
         published_start:
             label: 'lovata.goodnews::lang.field.published_start'
             tab: 'lovata.toolbox::lang.tab.settings'

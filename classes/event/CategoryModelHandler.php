@@ -1,5 +1,6 @@
 <?php namespace Lovata\GoodNews\Classes\Event;
 
+use Site;
 use Lovata\Toolbox\Models\Settings;
 use Lovata\Toolbox\Classes\Event\ModelHandler;
 
@@ -50,6 +51,16 @@ class CategoryModelHandler extends ModelHandler
     }
 
     /**
+     * After create event handler
+     */
+    protected function afterCreate()
+    {
+        parent::afterCreate();
+
+        $this->clearCachedListBySite();
+    }
+
+    /**
      * After save event handler
      */
     protected function afterSave()
@@ -59,6 +70,10 @@ class CategoryModelHandler extends ModelHandler
         CategoryListStore::instance()->top_level->clear();
 
         $this->checkFieldChanges('active', CategoryListStore::instance()->active);
+
+        if ($this->isFieldChanged('site_list')) {
+            $this->clearCachedListBySite();
+        }
     }
 
     /**
