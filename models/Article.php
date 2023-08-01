@@ -4,12 +4,15 @@ use Lang;
 use Model;
 use October\Rain\Argon\Argon;
 use October\Rain\Database\Traits\Validation;
+use October\Rain\Database\Traits\Sluggable;
+use System\Models\SiteDefinition;
 
 use Kharanenka\Helper\DataFileModel;
 use Kharanenka\Scope\CategoryBelongsTo;
 use Kharanenka\Scope\DateField;
 use Kharanenka\Scope\SlugField;
 
+use Lovata\Toolbox\Traits\Models\MultisiteHelperTrait;
 use Lovata\Toolbox\Traits\Helpers\TraitCached;
 use October\Rain\Database\Traits\SoftDelete;
 
@@ -41,6 +44,9 @@ use October\Rain\Database\Traits\SoftDelete;
  * @property \System\Models\File                                     $preview_image
  * @property \October\Rain\Database\Collection|\System\Models\File[] $images
  *
+ * @property \October\Rain\Database\Collection|SiteDefinition[]       $site
+ * @method \October\Rain\Database\Relations\MorphToMany|SiteDefinition site()
+ *
  * @property Category                                                $category
  * @method static \October\Rain\Database\Relations\BelongsTo|Category category()
  *
@@ -52,12 +58,14 @@ use October\Rain\Database\Traits\SoftDelete;
 class Article extends Model
 {
     use Validation;
+    use Sluggable;
     use DateField;
     use DataFileModel;
     use SlugField;
     use CategoryBelongsTo;
     use TraitCached;
     use SoftDelete;
+    use MultisiteHelperTrait;
 
     const STATUS_NEW = 1;
     const STATUS_IN_WORK = 2;
@@ -89,9 +97,18 @@ class Article extends Model
         'published_start' => 'lovata.goodnews::lang.field.published_start',
     ];
 
+    protected $slugs = ['slug' => 'name'];
+
     public $dates = ['created_at', 'updated_at', 'published_start', 'published_stop', 'deleted_at'];
 
-    public $belongsToMany = [];
+    public $belongsToMany = [
+        'site'                => [
+            SiteDefinition::class,
+            'table'    => 'lovata_goodnews_article_site_relation',
+            'otherKey' => 'site_id',
+        ],
+    ];
+
     public $belongsTo = [
         'category' => [
             Category::class,
@@ -183,6 +200,16 @@ class Article extends Model
                 /** @var Article $obQuery */
                 $obQuery->whereNull('published_stop')->orWhere('published_stop', '>', $sDateNow);
             });
+    }
+
+    /**
+     * Before validate event handler
+     */
+    public function beforeValidate()
+    {
+        if (empty($this->slug)) {
+            $this->slugAttributes();
+        }
     }
 
     /**

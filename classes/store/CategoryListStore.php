@@ -4,14 +4,16 @@ use Lovata\Toolbox\Classes\Store\AbstractListStore;
 
 use Lovata\GoodNews\Classes\Store\Category\TopLevelListStore;
 use Lovata\GoodNews\Classes\Store\Category\ActiveListStore;
+use Lovata\GoodNews\Classes\Store\Category\ListBySiteStore;
 
 /**
  * Class CategoryListStore
  * @package Lovata\GoodNews\Classes\Store
  * @author  Andrey Kharanenka, a.khoronenko@lovata.com, LOVATA Group
  *
- * @property TopLevelListStore $top_level
+ * @property TopLevelListStore   $top_level
  * @property ActiveListStore     $active
+ * @property ListBySiteStore     $site
  */
 class CategoryListStore extends AbstractListStore
 {
@@ -24,5 +26,6 @@ class CategoryListStore extends AbstractListStore
     {
         $this->addToStoreList('top_level', TopLevelListStore::class);
         $this->addToStoreList('active', ActiveListStore::class);
+        $this->addToStoreList('site', ListBySiteStore::class);
     }
 }

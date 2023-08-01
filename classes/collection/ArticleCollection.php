@@ -1,5 +1,6 @@
 <?php namespace Lovata\GoodNews\Classes\Collection;
 
+use Site;
 use Lovata\Toolbox\Classes\Collection\ElementCollection;
 
 use Lovata\GoodNews\Classes\Item\ArticleItem;
@@ -57,6 +58,14 @@ class ArticleCollection extends ElementCollection
                 $arResultIDList = array_merge($arResultIDList, (array) $this->getIDListChildrenCategory($iCategoryID));
             }
         }
+
+        return $this->intersect($arResultIDList);
+    }
+
+    public function site($iSiteID = null): self
+    {
+        $iSiteID = empty($iSiteID) ? Site::getSiteIdFromContext() : $iSiteID;
+        $arResultIDList = ArticleListStore::instance()->site->get($iSiteID);
 
         return $this->intersect($arResultIDList);
     }

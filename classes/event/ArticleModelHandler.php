@@ -1,5 +1,6 @@
 <?php namespace Lovata\GoodNews\Classes\Event;
 
+use Site;
 use Lovata\Toolbox\Models\Settings;
 use Lovata\Toolbox\Classes\Event\ModelHandler;
 
@@ -38,6 +39,8 @@ class ArticleModelHandler extends ModelHandler
     {
         parent::afterCreate();
 
+        $this->clearCachedListBySite();
+
         ArticleListStore::instance()->sorting->clear(ArticleListStore::SORT_NO);
     }
 
@@ -66,6 +69,10 @@ class ArticleModelHandler extends ModelHandler
         $this->checkCategoryIDField();
 
         $this->checkStatusField();
+
+        if ($this->isFieldChanged('site_list')) {
+            $this->clearCachedListBySite();
+        }
     }
 
     /**
@@ -86,6 +93,8 @@ class ArticleModelHandler extends ModelHandler
 
         $this->clearCategoryArticleCount($this->obElement->category_id);
         $this->clearCategoryArticleCount((int) $this->obElement->getOriginal('category_id'));
+
+        $this->clearCachedListBySite();
     }
 
     /**
@@ -148,6 +157,22 @@ class ArticleModelHandler extends ModelHandler
         $obCategoryItem = CategoryItem::make($iCategoryID);
         if ($obCategoryItem->isNotEmpty()) {
             $obCategoryItem->clearArticleCount();
+        }
+    }
+
+    /**
+     * Clear filtered articles by site ID
+     */
+    protected function clearCachedListBySite()
+    {
+        /** @var \October\Rain\Database\Collection $obSiteList */
+        $obSiteList = Site::listEnabled();
+        if (empty($obSiteList) || $obSiteList->isEmpty()) {
+            return;
+        }
+
+        foreach ($obSiteList as $obSite) {
+            ArticleListStore::instance()->site->clear($obSite->id);
         }
     }
 

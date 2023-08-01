@@ -46,6 +46,7 @@ class ArticleCategoryPage extends ElementPage
             $obElement = $this->getElementByWildcard($sElementSlug);
         }
 
+        $obElement = $this->hasRelationWithSite($obElement) ? $obElement : null;
         if (!empty($obElement)) {
             Event::fire('good_news.category.open', [$obElement]);
         }

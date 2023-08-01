@@ -1,5 +1,6 @@
 <?php namespace Lovata\GoodNews\Classes\Collection;
 
+use Site;
 use Lovata\Toolbox\Classes\Collection\ElementCollection;
 
 use Lovata\GoodNews\Classes\Item\CategoryItem;
@@ -32,6 +33,14 @@ class CategoryCollection extends ElementCollection
     public function active()
     {
         $arResultIDList = CategoryListStore::instance()->active->get();
+
+        return $this->intersect($arResultIDList);
+    }
+
+    public function site($iSiteID = null): self
+    {
+        $iSiteID = empty($iSiteID) ? Site::getSiteIdFromContext() : $iSiteID;
+        $arResultIDList = CategoryListStore::instance()->site->get($iSiteID);
 
         return $this->intersect($arResultIDList);
     }

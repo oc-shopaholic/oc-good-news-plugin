@@ -3,7 +3,10 @@
 use Model;
 use October\Rain\Database\Traits\Validation;
 use October\Rain\Database\Traits\NestedTree;
+use October\Rain\Database\Traits\Sluggable;
+use System\Models\SiteDefinition;
 
+use Lovata\Toolbox\Traits\Models\MultisiteHelperTrait;
 use Lovata\Toolbox\Traits\Helpers\TraitCached;
 
 use Kharanenka\Helper\DataFileModel;
@@ -40,6 +43,9 @@ use Kharanenka\Scope\CodeField;
  * @property \System\Models\File                                     $preview_image
  * @property \October\Rain\Database\Collection|\System\Models\File[] $images
  *
+ * @property \October\Rain\Database\Collection|SiteDefinition[]       $site
+ * @method \October\Rain\Database\Relations\MorphToMany|SiteDefinition site()
+ *
  * @property Category                                                $parent
  * @property \October\Rain\Database\Collection|Category[]            $children
  *
@@ -48,6 +54,7 @@ use Kharanenka\Scope\CodeField;
 class Category extends Model
 {
     use Validation;
+    use Sluggable;
     use NestedTree;
     use ActiveField;
     use SlugField;
@@ -55,6 +62,7 @@ class Category extends Model
     use DataFileModel;
     use CodeField;
     use TraitCached;
+    use MultisiteHelperTrait;
 
     public $table = 'lovata_good_news_categories';
     /** @var array */
@@ -78,6 +86,8 @@ class Category extends Model
         'lovata.toolbox::lang.field.slug',
     ];
 
+    protected $slugs = ['slug' => 'name'];
+
     protected $dates = ['created_at', 'updated_at'];
 
     public $attachOne = [
@@ -90,7 +100,15 @@ class Category extends Model
 
     public $belongsTo = [];
     public $hasMany = ['article' => Article::class];
-    public $belongsToMany = [];
+
+    public $belongsToMany = [
+        'site'                => [
+            SiteDefinition::class,
+            'table'    => 'lovata_goodnews_category_site_relation',
+            'otherKey' => 'site_id',
+        ],
+    ];
+
     public $morphMany = [];
 
     public $fillable = [
@@ -121,4 +139,14 @@ class Category extends Model
         'preview_image',
         'images',
     ];
+
+    /**
+     * Before validate event handler
+     */
+    public function beforeValidate()
+    {
+        if (empty($this->slug)) {
+            $this->slugAttributes();
+        }
+    }
 }

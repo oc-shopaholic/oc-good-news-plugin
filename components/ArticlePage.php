@@ -44,6 +44,7 @@ class ArticlePage extends ElementPage
             ->getPublished()
             ->first();
 
+        $obElement = $this->hasRelationWithSite($obElement) ? $obElement : null;
         if(!empty($obElement)) {
             $obElement->view_count++;
             $obElement->save();
