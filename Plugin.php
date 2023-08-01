@@ -6,6 +6,9 @@ use System\Classes\PluginBase;
 //Event
 use Lovata\GoodNews\Classes\Event\ArticleModelHandler;
 use Lovata\GoodNews\Classes\Event\CategoryModelHandler;
+use Lovata\GoodNews\Classes\Event\ExtendArticleFieldsHandler;
+use Lovata\GoodNews\Classes\Event\ExtendCategoryFieldsHandler;
+use Lovata\GoodNews\Classes\Event\ExtendSettingsFieldHandler;
 
 /**
  * Class Plugin
@@ -48,5 +51,10 @@ class Plugin extends PluginBase
     {
         Event::subscribe(ArticleModelHandler::class);
         Event::subscribe(CategoryModelHandler::class);
+
+        Event::subscribe(ExtendArticleFieldsHandler::class);
+        Event::subscribe(ExtendCategoryFieldsHandler::class);
+
+        Event::subscribe(ExtendSettingsFieldHandler::class);
     }
 }
