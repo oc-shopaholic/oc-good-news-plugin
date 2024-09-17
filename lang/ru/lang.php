@@ -4,13 +4,15 @@
         'description' => 'Новостной плагин',
     ],
     'field'     => [
-        'content'         => 'Контент новости',
-        'published_start' => 'Дата начала публикации',
-        'published_stop'  => 'Дата окончания публикации',
-        'status'          => 'Статус',
-        'seo_title'       => 'Заголовок (meta title)',
-        'seo_keywords'    => 'Ключевые слова (meta keywords)',
-        'seo_description' => 'Описание (meta description)',
+        'content'                                => 'Контент новости',
+        'published_start'                        => 'Дата начала публикации',
+        'published_stop'                         => 'Дата окончания публикации',
+        'status'                                 => 'Статус',
+        'seo_title'                              => 'Заголовок (meta title)',
+        'seo_keywords'                           => 'Ключевые слова (meta keywords)',
+        'seo_description'                        => 'Описание (meta description)',
+
+        'is_hidden_additional_fields_fileupload' => 'Скрыть дополнительные поля изображений',
     ],
     'component' => [
         'article_page'         => 'Страница новости',
@@ -39,6 +41,7 @@
     'tab'       => [
         'permissions' => 'Управление блонком новостей',
         'meta'        => 'Метатеги',
+        'settings'    => 'Настройки GoodNews',
     ],
     'article'   => [
         'name'       => 'новости',
