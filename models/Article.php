@@ -2,7 +2,7 @@
 
 use Lang;
 use Model;
-use October\Rain\Argon\Argon;
+use Carbon\Carbon;
 use October\Rain\Database\Traits\Validation;
 use October\Rain\Database\Traits\Sluggable;
 use System\Models\SiteDefinition;
@@ -36,15 +36,15 @@ use October\Rain\Database\Traits\SoftDelete;
  * @property string                                                  $seo_title
  * @property string                                                  $seo_keywords
  * @property string                                                  $seo_description
- * @property \October\Rain\Argon\Argon                               $published_start
- * @property \October\Rain\Argon\Argon                               $published_stop
- * @property \October\Rain\Argon\Argon                               $created_at
- * @property \October\Rain\Argon\Argon                               $updated_at
+ * @property \Carbon\Carbon                                          $published_start
+ * @property \Carbon\Carbon                                          $published_stop
+ * @property \Carbon\Carbon                                          $created_at
+ * @property \Carbon\Carbon                                          $updated_at
  *
  * @property \System\Models\File                                     $preview_image
  * @property \October\Rain\Database\Collection|\System\Models\File[] $images
  *
- * @property \October\Rain\Database\Collection|SiteDefinition[]       $site
+ * @property \October\Rain\Database\Collection|SiteDefinition[]      $site
  * @method \October\Rain\Database\Relations\MorphToMany|SiteDefinition site()
  *
  * @property Category                                                $category
@@ -102,7 +102,7 @@ class Article extends Model
     public $dates = ['created_at', 'updated_at', 'published_start', 'published_stop', 'deleted_at'];
 
     public $belongsToMany = [
-        'site'                => [
+        'site' => [
             SiteDefinition::class,
             'table'    => 'lovata_goodnews_article_site_relation',
             'otherKey' => 'site_id',
@@ -116,11 +116,11 @@ class Article extends Model
     ];
 
     public $attachOne = [
-        'preview_image' => 'System\Models\File'
+        'preview_image' => 'System\Models\File',
     ];
 
     public $attachMany = [
-        'images' => 'System\Models\File'
+        'images' => 'System\Models\File',
     ];
 
     public $fillable = [
@@ -193,7 +193,7 @@ class Article extends Model
      */
     public function scopeGetPublished($obQuery)
     {
-        $sDateNow = Argon::now()->format('Y-m-d H:i:s');
+        $sDateNow = Carbon::now()->format('Y-m-d H:i:s');
 
         return $obQuery->where('published_start', '<=', $sDateNow)
             ->where(function ($obQuery) use ($sDateNow) {
@@ -219,9 +219,9 @@ class Article extends Model
     public function getStatusIdOptions()
     {
         return [
-            self::STATUS_NEW       => Lang::get('lovata.goodnews::lang.status.' . self::STATUS_NEW),
-            self::STATUS_IN_WORK   => Lang::get('lovata.goodnews::lang.status.' . self::STATUS_IN_WORK),
-            self::STATUS_PUBLISHED => Lang::get('lovata.goodnews::lang.status.' . self::STATUS_PUBLISHED),
+            self::STATUS_NEW       => Lang::get('lovata.goodnews::lang.status.'.self::STATUS_NEW),
+            self::STATUS_IN_WORK   => Lang::get('lovata.goodnews::lang.status.'.self::STATUS_IN_WORK),
+            self::STATUS_PUBLISHED => Lang::get('lovata.goodnews::lang.status.'.self::STATUS_PUBLISHED),
         ];
     }
 }

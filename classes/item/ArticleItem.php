@@ -11,24 +11,24 @@ use Lovata\GoodNews\Models\Article;
  * Class ArticleItem
  * @package Lovata\GoodNews\Classes\Item
  * @author  Andrey Kharanenka, a.khoronenko@lovata.com, LOVATA Group
- * @property int                       $id
- * @property int                       $status_id
- * @property integer                   $category_id
- * @property integer                   $view_count
- * @property string                    $title
- * @property string                    $slug
- * @property string                    $preview_text
- * @property string                    $content
- * @property string                    $seo_title
- * @property string                    $seo_keywords
- * @property string                    $seo_description
- * @property CategoryItem              $category
- * @property \October\Rain\Argon\Argon $published_start
- * @property \October\Rain\Argon\Argon $published_stop
- * @property \October\Rain\Argon\Argon $created_at
- * @property \October\Rain\Argon\Argon $updated_at
- * @property \System\Models\File       $preview_image
- * @property \System\Models\File[]     $images
+ * @property int                   $id
+ * @property int                   $status_id
+ * @property integer               $category_id
+ * @property integer               $view_count
+ * @property string                $title
+ * @property string                $slug
+ * @property string                $preview_text
+ * @property string                $content
+ * @property string                $seo_title
+ * @property string                $seo_keywords
+ * @property string                $seo_description
+ * @property CategoryItem          $category
+ * @property \Carbon\Carbon        $published_start
+ * @property \Carbon\Carbon        $published_stop
+ * @property \Carbon\Carbon        $created_at
+ * @property \Carbon\Carbon        $updated_at
+ * @property \System\Models\File   $preview_image
+ * @property \System\Models\File[] $images
  */
 class ArticleItem extends ElementItem
 {

@@ -1,6 +1,6 @@
 <?php namespace Lovata\GoodNews\Classes\Store\Article;
 
-use October\Rain\Argon\Argon;
+use Carbon\Carbon;
 
 use Kharanenka\Helper\CCache;
 
@@ -64,7 +64,7 @@ class PublishedListStore extends AbstractStoreWithoutParam
 
     /**
      * Get first published start date
-     * @return Argon
+     * @return Carbon
      */
     protected function getFirstPublishedStartDate()
     {
@@ -73,7 +73,7 @@ class PublishedListStore extends AbstractStoreWithoutParam
             return $obResult;
         }
 
-        $obDateNow = Argon::now();
+        $obDateNow = Carbon::now();
 
         $obArticle = Article::whereNotNull('published_start')
             ->where('published_start', '>', $obDateNow->toDateTimeString())
@@ -90,7 +90,7 @@ class PublishedListStore extends AbstractStoreWithoutParam
 
     /**
      * Get first published stop date
-     * @return Argon
+     * @return Carbon
      */
     protected function getFirstPublishedStopDate()
     {
@@ -99,7 +99,7 @@ class PublishedListStore extends AbstractStoreWithoutParam
             return $obResult;
         }
 
-        $obDateNow = Argon::now();
+        $obDateNow = Carbon::now();
 
         $obArticle = Article::whereNotNull('published_stop')
             ->where('published_stop', '>', $obDateNow->toDateTimeString())
@@ -124,7 +124,7 @@ class PublishedListStore extends AbstractStoreWithoutParam
         $obStartDate = $this->getFirstPublishedStartDate();
         $obStopDate = $this->getFirstPublishedStopDate();
 
-        $obDateNow = Argon::now();
+        $obDateNow = Carbon::now();
         $obDate = !empty($obStartDate) ? $obStartDate : $obStopDate;
 
         $bResult = (empty($obDate) && $obDate !== false) || (!empty($obDate) && $obDate < $obDateNow);

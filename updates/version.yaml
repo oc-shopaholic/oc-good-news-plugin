@@ -29,3 +29,5 @@
     - 'Added the ability to link articles and categories to different sites. Added site() method to CategoryCollection, ArticleCollection classes.'
     - create_table_article_site_relation.php
     - create_table_category_site_relation.php
+1.8.1:
+    - 'Fixed October v4 compatibility'

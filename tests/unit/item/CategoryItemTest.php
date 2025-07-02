@@ -1,6 +1,6 @@
 <?php namespace Lovata\GoodNews\Tests\Unit\Item;
 
-use October\Rain\Argon\Argon;
+use Carbon\Carbon;
 use Lovata\Toolbox\Tests\CommonTest;
 
 use Lovata\GoodNews\Models\Article;
@@ -216,7 +216,7 @@ class CategoryItemTest extends CommonTest
         self::assertEquals(1, $obItem->article_count);
 
         //Set published_start == tomorrow Article object
-        $this->obArticle->published_start = Argon::tomorrow();
+        $this->obArticle->published_start = Carbon::tomorrow();
         $this->obArticle->save();
 
         ArticleCollection::make()->published()->save(CategoryItem::class.'_published');
@@ -227,7 +227,7 @@ class CategoryItemTest extends CommonTest
         self::assertEquals(0, $obItem->article_count);
 
         //Set published_start == today Article object
-        $this->obArticle->published_start = Argon::today();
+        $this->obArticle->published_start = Carbon::today();
         $this->obArticle->save();
 
         ArticleCollection::make()->published()->save(CategoryItem::class.'_published');
@@ -273,7 +273,7 @@ class CategoryItemTest extends CommonTest
         $arArticleData = $this->arArticleData;
         $arArticleData['category_id'] = $this->obChildElement->id;
 
-        $arArticleData['published_start'] = Argon::today();
+        $arArticleData['published_start'] = Carbon::today();
 
         $this->obArticle = Article::create($arArticleData);
     }

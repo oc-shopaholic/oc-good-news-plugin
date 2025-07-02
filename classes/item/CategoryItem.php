@@ -101,7 +101,7 @@ class CategoryItem extends ElementItem
      * @param array  $arRemoveParamList
      * @return array
      */
-    public function getPageParamList($sPageCode, $arRemoveParamList = []) : array
+    public function getPageParamList($sPageCode, $arRemoveParamList = []): array
     {
         $arResult = [];
         if (!empty($arRemoveParamList)) {
@@ -156,7 +156,7 @@ class CategoryItem extends ElementItem
      * Get array with categories slugs
      * @return array
      */
-    protected function getSlugList() : array
+    protected function getSlugList(): array
     {
         $arResult = [$this->slug];
 

@@ -37,13 +37,13 @@ use Kharanenka\Scope\CodeField;
  * @property int                                                     $nest_left
  * @property int                                                     $nest_right
  * @property int                                                     $nest_depth
- * @property \October\Rain\Argon\Argon                               $created_at
- * @property \October\Rain\Argon\Argon                               $updated_at
+ * @property \Carbon\Carbon                                          $created_at
+ * @property \Carbon\Carbon                                          $updated_at
  *
  * @property \System\Models\File                                     $preview_image
  * @property \October\Rain\Database\Collection|\System\Models\File[] $images
  *
- * @property \October\Rain\Database\Collection|SiteDefinition[]       $site
+ * @property \October\Rain\Database\Collection|SiteDefinition[]      $site
  * @method \October\Rain\Database\Relations\MorphToMany|SiteDefinition site()
  *
  * @property Category                                                $parent
@@ -91,18 +91,18 @@ class Category extends Model
     protected $dates = ['created_at', 'updated_at'];
 
     public $attachOne = [
-        'preview_image' => 'System\Models\File'
+        'preview_image' => 'System\Models\File',
     ];
 
     public $attachMany = [
-        'images' => 'System\Models\File'
+        'images' => 'System\Models\File',
     ];
 
     public $belongsTo = [];
     public $hasMany = ['article' => Article::class];
 
     public $belongsToMany = [
-        'site'                => [
+        'site' => [
             SiteDefinition::class,
             'table'    => 'lovata_goodnews_category_site_relation',
             'otherKey' => 'site_id',
