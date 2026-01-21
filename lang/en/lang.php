@@ -4,13 +4,15 @@
         'description' => 'Articles plugin',
     ],
     'field'     => [
-        'content'         => 'Article content',
-        'published_start' => 'Start date of publication',
-        'published_stop'  => 'Stop date of publication',
-        'status'          => 'Status',
-        'seo_title'       => 'Meta title',
-        'seo_keywords'    => 'Meta keywords',
-        'seo_description' => 'Meta description',
+        'content'                                => 'Article content',
+        'published_start'                        => 'Start date of publication',
+        'published_stop'                         => 'Stop date of publication',
+        'status'                                 => 'Status',
+        'seo_title'                              => 'Meta title',
+        'seo_keywords'                           => 'Meta keywords',
+        'seo_description'                        => 'Meta description',
+
+        'is_hidden_additional_fields_fileupload' => 'Hide additional image fields',
     ],
     'component' => [
         'article_page'         => 'Article page',
@@ -39,6 +41,7 @@
     'tab'       => [
         'permissions' => 'Manage article',
         'meta'        => 'Meta',
+        'settings'    => 'Settings GoodNews',
     ],
     'article'   => [
         'name'       => 'article',
