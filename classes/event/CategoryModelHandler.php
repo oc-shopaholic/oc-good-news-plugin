@@ -2,6 +2,7 @@
 
 use Site;
 use Lovata\Toolbox\Models\Settings;
+use Lovata\Toolbox\Models\ImageSet;
 use Lovata\Toolbox\Classes\Event\ModelHandler;
 
 use Lovata\GoodNews\Models\Category;
@@ -32,6 +33,11 @@ class CategoryModelHandler extends ModelHandler
             if ($bSlugIsTranslatable) {
                 $obModel->translatable[] = ['slug', 'index' => true];
             }
+
+            //NestedTree deletes child categories with one query in "model.beforeDelete" event, so image sets of children are removed before it
+            $obModel->bindEvent('model.beforeDelete', function () use ($obModel) {
+                $this->removeChildrenImageSets($obModel);
+            }, 1);
         });
 
         $obEvent->listen('good_news.category.update.sorting', function () {
@@ -95,6 +101,23 @@ class CategoryModelHandler extends ModelHandler
         }
 
         $this->clearCachedListBySite();
+    }
+
+    /**
+     * Remove image sets of all child categories. Sets are removed one by one, so that their files are removed too.
+     * @param Category $obCategory
+     */
+    protected function removeChildrenImageSets($obCategory)
+    {
+        $arChildIDList = $obCategory->getAllChildren()->pluck('id')->all();
+        if (empty($arChildIDList)) {
+            return;
+        }
+
+        $obImageSetList = ImageSet::where('imageable_type', Category::class)->whereIn('imageable_id', $arChildIDList)->get();
+        foreach ($obImageSetList as $obImageSet) {
+            $obImageSet->delete();
+        }
     }
 
     /**

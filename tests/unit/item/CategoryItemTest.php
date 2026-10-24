@@ -8,6 +8,8 @@ use Lovata\GoodNews\Classes\Collection\ArticleCollection;
 use Lovata\GoodNews\Models\Category;
 use Lovata\GoodNews\Classes\Item\CategoryItem;
 use Lovata\GoodNews\Classes\Collection\CategoryCollection;
+use Lovata\GoodNews\Tests\Fixtures\ImageSetsTestTrait;
+use Lovata\GoodNews\Tests\Fixtures\ImageSetsItemTestTrait;
 
 /**
  * Class CategoryItemTest
@@ -18,6 +20,11 @@ use Lovata\GoodNews\Classes\Collection\CategoryCollection;
  */
 class CategoryItemTest extends CommonTest
 {
+    use ImageSetsTestTrait;
+    use ImageSetsItemTestTrait;
+
+    protected $sImageSetsItemClass = CategoryItem::class;
+
     /** @var  Category */
     protected $obElement;
 
@@ -49,6 +56,24 @@ class CategoryItemTest extends CommonTest
         'seo_description' => 'seo_description',
         'view_count'      => 0
     ];
+
+    /**
+     * Set up test method
+     */
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->setUpImageSets();
+    }
+
+    /**
+     * Tear down test method
+     */
+    public function tearDown(): void
+    {
+        $this->tearDownImageSets();
+        parent::tearDown();
+    }
 
     /**
      * Check item fields
@@ -276,5 +301,19 @@ class CategoryItemTest extends CommonTest
         $arArticleData['published_start'] = Carbon::today();
 
         $this->obArticle = Article::create($arArticleData);
+    }
+
+    /**
+     * Create element for image sets tests
+     * @param string $sName
+     * @return Category
+     */
+    protected function createImageSetsElement($sName = 'Element')
+    {
+        return Category::create([
+            'active' => true,
+            'name'   => $sName,
+            'slug'   => str_slug($sName),
+        ]);
     }
 }
