@@ -6,6 +6,8 @@ use System\Classes\PluginBase;
 //Event
 use Lovata\GoodNews\Classes\Event\ArticleModelHandler;
 use Lovata\GoodNews\Classes\Event\CategoryModelHandler;
+use Lovata\GoodNews\Classes\Event\ExtendArticleImageSetsFieldHandler;
+use Lovata\GoodNews\Classes\Event\ExtendCategoryImageSetsFieldHandler;
 
 /**
  * Class Plugin
@@ -48,5 +50,7 @@ class Plugin extends PluginBase
     {
         Event::subscribe(ArticleModelHandler::class);
         Event::subscribe(CategoryModelHandler::class);
+        Event::subscribe(ExtendArticleImageSetsFieldHandler::class);
+        Event::subscribe(ExtendCategoryImageSetsFieldHandler::class);
     }
 }

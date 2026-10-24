@@ -6,6 +6,7 @@ use October\Rain\Database\Traits\NestedTree;
 use October\Rain\Database\Traits\Sluggable;
 use System\Models\SiteDefinition;
 
+use Lovata\Toolbox\Models\ImageSet;
 use Lovata\Toolbox\Traits\Models\MultisiteHelperTrait;
 use Lovata\Toolbox\Traits\Helpers\TraitCached;
 
@@ -42,6 +43,9 @@ use Kharanenka\Scope\CodeField;
  *
  * @property \System\Models\File                                     $preview_image
  * @property \October\Rain\Database\Collection|\System\Models\File[] $images
+ *
+ * @property \October\Rain\Database\Collection|\Lovata\Toolbox\Models\ImageSet[] $image_sets
+ * @method \October\Rain\Database\Relations\MorphMany|\Lovata\Toolbox\Models\ImageSet image_sets()
  *
  * @property \October\Rain\Database\Collection|SiteDefinition[]      $site
  * @method \October\Rain\Database\Relations\MorphToMany|SiteDefinition site()
@@ -109,7 +113,9 @@ class Category extends Model
         ],
     ];
 
-    public $morphMany = [];
+    public $morphMany = [
+        'image_sets' => [ImageSet::class, 'name' => 'imageable', 'delete' => true],
+    ];
 
     public $fillable = [
         'name',
@@ -138,6 +144,7 @@ class Category extends Model
         'parent_id',
         'preview_image',
         'images',
+        'image_sets',
     ];
 
     /**

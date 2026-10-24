@@ -12,6 +12,7 @@ use Kharanenka\Scope\CategoryBelongsTo;
 use Kharanenka\Scope\DateField;
 use Kharanenka\Scope\SlugField;
 
+use Lovata\Toolbox\Models\ImageSet;
 use Lovata\Toolbox\Traits\Models\MultisiteHelperTrait;
 use Lovata\Toolbox\Traits\Helpers\TraitCached;
 use October\Rain\Database\Traits\SoftDelete;
@@ -43,6 +44,9 @@ use October\Rain\Database\Traits\SoftDelete;
  *
  * @property \System\Models\File                                     $preview_image
  * @property \October\Rain\Database\Collection|\System\Models\File[] $images
+ *
+ * @property \October\Rain\Database\Collection|\Lovata\Toolbox\Models\ImageSet[] $image_sets
+ * @method \October\Rain\Database\Relations\MorphMany|\Lovata\Toolbox\Models\ImageSet image_sets()
  *
  * @property \October\Rain\Database\Collection|SiteDefinition[]      $site
  * @method \October\Rain\Database\Relations\MorphToMany|SiteDefinition site()
@@ -123,6 +127,10 @@ class Article extends Model
         'images' => 'System\Models\File',
     ];
 
+    public $morphMany = [
+        'image_sets' => [ImageSet::class, 'name' => 'imageable', 'delete' => true],
+    ];
+
     public $fillable = [
         'status_id',
         'category_id',
@@ -154,6 +162,7 @@ class Article extends Model
         'view_count',
         'preview_image',
         'images',
+        'image_sets',
     ];
 
     /**
