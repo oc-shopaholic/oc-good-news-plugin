@@ -41,7 +41,7 @@ php artisan plugin:install lovata.goodnews
 
 ## Documentation
 
-The complete official documentation of the ecosystem can be found [here](https://github.com/lovata/oc-good-news-plugin/wiki).
+The complete official documentation of the ecosystem can be found [here](https://github.com/oc-shopaholic/oc-good-news-plugin/wiki).
 
 ## Quality standards
 
@@ -50,8 +50,8 @@ We ensure the high quality of our plugins and provide you with full support. All
 ## Get involved
 
 If you're interested in the improvement of this project you can help in the following ways:
-* bug reporting and new feature requesting by creating issues on plugin [GitHub page](https://github.com/lovata/oc-good-news-plugin/issues);
-* contribution to a project following these [instructions](https://github.com/lovata/oc-good-news-plugin/blob/master/CONTRIBUTING.md);
+* bug reporting and new feature requesting by creating issues on plugin [GitHub page](https://github.com/oc-shopaholic/oc-good-news-plugin/issues);
+* contribution to a project following these [instructions](https://github.com/oc-shopaholic/oc-good-news-plugin/blob/develop/CONTRIBUTING.md);
 * localization to your language using [Crowdin](https://crowdin.com/project/good-news-for-october-cms) service.
 
 Let us know if you have any other questions, ideas or suggestions! Just drop a line at octobercms@lovata.com.
