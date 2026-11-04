@@ -52,7 +52,7 @@ class ArticleList extends SortingElementList
      *
      * @return ArticleCollection
      */
-    public function make($arElementIDList = null)
+    public function makeCollection($arElementIDList = null)
     {
         return ArticleCollection::make($arElementIDList);
     }
