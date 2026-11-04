@@ -29,6 +29,7 @@ use Lovata\GoodNews\Models\Article;
  * @property \Carbon\Carbon        $updated_at
  * @property \System\Models\File   $preview_image
  * @property \System\Models\File[] $images
+ * @property array                 $image_sets Image sets in Toolbox format: [['profile' => ['id', 'name', 'width', 'media'], 'images' => \System\Models\File[]]]
  */
 class ArticleItem extends ElementItem
 {
@@ -37,6 +38,8 @@ class ArticleItem extends ElementItem
     public static $arQueryWith = [
         'preview_image',
         'images',
+        'image_sets.images',
+        'image_sets.profile',
     ];
 
     public $arRelationList = [

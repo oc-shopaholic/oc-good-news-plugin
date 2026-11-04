@@ -30,6 +30,7 @@ use Lovata\GoodNews\Classes\Collection\CategoryCollection;
  * @property string                            $seo_keywords
  * @property string                            $seo_description
  * @property array                             $images
+ * @property array                             $image_sets Image sets in Toolbox format: [['profile' => ['id', 'name', 'width', 'media'], 'images' => \System\Models\File[]]]
  * @property CategoryItem                      $parent
  * @property array                             $children_id_list
  * @property CategoryCollection|CategoryItem[] $children
@@ -41,6 +42,8 @@ class CategoryItem extends ElementItem
     public static $arQueryWith = [
         'preview_image',
         'images',
+        'image_sets.images',
+        'image_sets.profile',
     ];
 
     /** @var Category */
